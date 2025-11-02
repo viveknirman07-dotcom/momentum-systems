@@ -226,6 +226,55 @@
       transform: translateY(0);
     }
   }
+  
+  /* Logo spin animation */
+  .logo-spin {
+    transition: transform 600ms ease;
+    transform: rotate(360deg);
+  }
+  
+  /* Service card animations - only in services section */
+  #services .service-card {
+    transition: transform 300ms var(--ease-premium), box-shadow 300ms var(--ease-premium);
+  }
+  
+  #services .service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+  
+  #services .service-card .icon {
+    transition: transform 400ms var(--ease-premium);
+  }
+  
+  #services .service-card:hover .icon {
+    transform: scale(1.05) rotate(2deg);
+  }
+  
+  /* Enhanced button visibility */
+  button, .btn, a.button {
+    border-radius: 10px;
+    padding: 0.9rem 1.2rem;
+    font-weight: 600;
+    min-width: 160px;
+    border: 1px solid currentColor;
+  }
+  
+  .btn-primary, button[variant="default"] {
+    filter: contrast(110%);
+    box-shadow: 0 0 0 0 rgba(0,0,0,0);
+    transition: box-shadow 200ms var(--ease-premium), transform 120ms var(--ease-premium);
+  }
+  
+  .btn-primary:hover, button[variant="default"]:hover {
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+    transform: translateY(-1px);
+  }
+  
+  button:focus-visible, .btn:focus-visible, a.button:focus-visible {
+    outline: 3px solid hsl(var(--foreground));
+    outline-offset: 3px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

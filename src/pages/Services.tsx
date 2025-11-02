@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Lightbulb, TrendingUp, Users, Target, Linkedin as LinkedinIcon, Search, Share2, GraduationCap, Award } from "lucide-react";
 
 const Services = () => {
   const services = [
@@ -18,6 +19,7 @@ const Services = () => {
         "Go-to-market architecture",
         "Measurement planning",
       ],
+      icon: Lightbulb,
     },
     {
       name: "High-Ticket Sales Consulting",
@@ -28,6 +30,7 @@ const Services = () => {
         "Qualification frameworks",
         "Enablement and review",
       ],
+      icon: TrendingUp,
     },
     {
       name: "Performance Marketing",
@@ -38,6 +41,7 @@ const Services = () => {
         "A/B testing and experimentation",
         "Attribution and reporting",
       ],
+      icon: Target,
     },
     {
       name: "B2B Lead Generation",
@@ -48,6 +52,7 @@ const Services = () => {
         "Landing experiences",
         "Calendaring and follow-up",
       ],
+      icon: Users,
     },
     {
       name: "LinkedIn Outreach and Positioning",
@@ -58,6 +63,7 @@ const Services = () => {
         "Warm and cold outreach",
         "Relationship pipelines",
       ],
+      icon: LinkedinIcon,
     },
     {
       name: "SEO and Digital Visibility",
@@ -68,6 +74,7 @@ const Services = () => {
         "On-page and internal links",
         "Search analytics",
       ],
+      icon: Search,
     },
     {
       name: "Social Media Growth",
@@ -78,6 +85,7 @@ const Services = () => {
         "Creative templates",
         "Insights and cadence",
       ],
+      icon: Share2,
     },
     {
       name: "Digital Product and Course Consulting",
@@ -88,6 +96,7 @@ const Services = () => {
         "Pricing and funnels",
         "Launch and iteration",
       ],
+      icon: GraduationCap,
     },
     {
       name: "PR and Branding Solutions",
@@ -98,6 +107,7 @@ const Services = () => {
         "Founder's brand system",
         "Asset kit and guidelines",
       ],
+      icon: Award,
     },
   ];
 
@@ -108,7 +118,7 @@ const Services = () => {
     },
     {
       q: "How do engagements start?",
-      a: "We begin with a short clarity call, define outcomes and then propose the smallest useful system to deliver them.",
+      a: "We begin with a short paid clarity call, a focused session to understand your growth goals.",
     },
   ];
 
@@ -125,23 +135,35 @@ const Services = () => {
         </div>
       </section>
 
-      <section className="pb-24">
-        <div className="container-narrow">
-          <div className="space-y-12">
-            {services.map((service, index) => (
-              <div key={index} className="border-t border-[hsl(var(--line-hair))] pt-12 first:border-t-0 first:pt-0">
-                <h2 className="text-h3 mb-4">{service.name}</h2>
-                <p className="text-body-l text-muted-foreground mb-6">{service.blurb}</p>
-                <ul className="grid sm:grid-cols-2 gap-3">
-                  {service.bullets.map((bullet, bulletIndex) => (
-                    <li key={bulletIndex} className="text-body-m text-muted-foreground flex items-start">
-                      <span className="text-foreground mr-3">—</span>
-                      {bullet}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+      <section id="services" className="pb-24">
+        <div className="container-standard">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+            {services.map((service, index) => {
+              const Icon = service.icon;
+              return (
+                <div 
+                  key={index} 
+                  className="service-card border border-[hsl(var(--line-hair))] rounded-xl p-6 bg-[hsl(var(--card))] transition-all duration-300"
+                  style={{ 
+                    animationDelay: `${index * 50}ms`,
+                  }}
+                >
+                  <div className="icon mb-4 transition-transform duration-400">
+                    <Icon className="w-8 h-8 text-foreground" strokeWidth={1.5} />
+                  </div>
+                  <h3 className="text-h4 mb-3">{service.name}</h3>
+                  <p className="text-body-m text-muted-foreground mb-4">{service.blurb}</p>
+                  <ul className="space-y-2">
+                    {service.bullets.map((bullet, bulletIndex) => (
+                      <li key={bulletIndex} className="text-caption text-muted-foreground flex items-start">
+                        <span className="text-foreground mr-2">—</span>
+                        {bullet}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

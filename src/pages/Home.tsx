@@ -50,7 +50,7 @@ const Home = () => {
             We engineer momentum systems that compound attention into meaningful outcomes.
           </h1>
           <p className="text-body-l text-muted-foreground mb-12 max-w-3xl">
-            Growth systems, not noise. Strategy, performance marketing, intelligent outbound and automation that work together.
+            Built for professionals, entrepreneurs and modern brands who operate with intention.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 items-start">
             <Button asChild variant="ghost" size="lg" className="hover-underline text-base px-0 h-auto font-normal">

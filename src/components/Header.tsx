@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
-import { Instagram, Linkedin, Menu, X } from "lucide-react";
-import { useState } from "react";
-import logo from "@/assets/bitwellforge-logo.png";
+import { Instagram, Linkedin, Menu, Mail } from "lucide-react";
+import { useState, useEffect } from "react";
+import logo from "@/assets/bitwellforge-logo-new.png";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const Header = () => {
@@ -16,16 +16,29 @@ const Header = () => {
     { label: "contact", href: "/contact" },
   ];
 
+  useEffect(() => {
+    const logoEl = document.querySelector('[data-el="site-logo"]') as HTMLElement;
+    if (logoEl && !logoEl.hasAttribute('data-spin-bound')) {
+      logoEl.setAttribute('data-spin-bound', '1');
+      logoEl.addEventListener('click', (e) => {
+        e.preventDefault();
+        logoEl.classList.remove('logo-spin');
+        void logoEl.offsetWidth;
+        logoEl.classList.add('logo-spin');
+      });
+    }
+  }, []);
+
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-[hsl(var(--line-hair))]">
       <div className="container-standard">
         <div className="flex items-center justify-between h-[72px] lg:h-[72px] md:h-[64px] sm:h-[56px]">
           {/* Logo */}
-          <Link to="/" className="flex-shrink-0 group">
+          <Link to="/" className="flex-shrink-0 group" data-el="site-logo" role="img" aria-label="BitwellForge logo">
             <img 
               src={logo} 
               alt="BitwellForge" 
-              className="h-10 w-10 transition-all duration-[160ms] group-hover:scale-[1.02] group-hover:opacity-96"
+              className="h-10 w-10 transition-all duration-[600ms] ease-out"
             />
           </Link>
 
@@ -65,6 +78,13 @@ const Header = () => {
               aria-label="LinkedIn"
             >
               <Linkedin className="w-5 h-5" />
+            </a>
+            <a
+              href="mailto:v@bitwellforge.com?subject=Inquiry%20from%20BitwellForge%20Site"
+              className="text-muted-foreground hover:text-foreground transition-colors duration-[120ms]"
+              aria-label="Email"
+            >
+              <Mail className="w-5 h-5" />
             </a>
           </div>
 
@@ -122,6 +142,13 @@ const Header = () => {
                   aria-label="LinkedIn"
                 >
                   <Linkedin className="w-6 h-6" />
+                </a>
+                <a
+                  href="mailto:v@bitwellforge.com?subject=Inquiry%20from%20BitwellForge%20Site"
+                  className="text-muted-foreground hover:text-foreground transition-colors duration-[120ms]"
+                  aria-label="Email"
+                >
+                  <Mail className="w-6 h-6" />
                 </a>
               </div>
             </SheetContent>
