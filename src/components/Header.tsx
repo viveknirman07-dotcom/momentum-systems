@@ -35,7 +35,7 @@ const Header = () => {
     }
   }, []);
   return <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-[hsl(var(--line-hair))]">
-      <div className="container-standard">
+      <div className="container-standard relative">
         <div className="flex items-center justify-between h-[72px] lg:h-[72px] md:h-[64px] sm:h-[56px]">
           {/* Logo */}
           <Link to="/" className="flex-shrink-0 group" data-el="site-logo" role="img" aria-label="BitwellForge logo">
@@ -65,12 +65,17 @@ const Header = () => {
           {/* Mobile Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="lg:hidden">
-              <button aria-label="Menu" className="text-foreground hover:text-muted-foreground transition-colors duration-[120ms] text-right">
-                <Menu className="w-6 h-6" />
+              <button
+                aria-label="Open menu"
+                aria-controls="mobile-menu"
+                aria-expanded={isOpen}
+                className="ml-auto inline-flex h-11 w-11 items-center justify-center p-0 text-foreground hover:text-foreground/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              >
+                <Menu className="h-6 w-6" />
               </button>
             </SheetTrigger>
-            <SheetContent side="top" className="bg-[#0A0A0A] border-[hsl(var(--line-hair))] max-h-[90vh] overflow-y-auto rounded-b-2xl shadow-[0_16px_60px_rgba(0,0,0,0.60)]">
-              <nav className="flex flex-col gap-0 mt-8">
+            <SheetContent side="top" className="bg-background border-[hsl(var(--line-hair))] max-h-[90vh] overflow-y-auto rounded-b-2xl shadow-[0_16px_60px_rgba(0,0,0,0.60)]">
+              <nav id="mobile-menu" className="flex flex-col gap-0 mt-8">
                 {navItems.map((item, index) => <div key={item.href}>
                     <Link to={item.href} onClick={() => setIsOpen(false)} className={`text-[22px] font-normal lowercase py-4 block transition-colors duration-[120ms] ${location.pathname === item.href ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
                       {item.label}
