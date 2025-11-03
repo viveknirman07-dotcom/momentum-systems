@@ -33,7 +33,7 @@ const Header = () => {
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-[hsl(var(--line-hair))]">
       <div className="container-standard">
         <div className="flex items-center justify-between h-[72px] lg:h-[72px] md:h-[64px] sm:h-[56px]">
-          {/* Logo */}
+          {/* Logo - Desktop always left, Mobile left */}
           <Link to="/" className="flex-shrink-0 group" data-el="site-logo" role="img" aria-label="BitwellForge logo">
             <img 
               src={logo} 
@@ -88,9 +88,9 @@ const Header = () => {
             </a>
           </div>
 
-          {/* Mobile Menu */}
+          {/* Mobile Menu - Top Right */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild className="lg:hidden">
+            <SheetTrigger asChild className="lg:hidden ml-auto">
               <button
                 className="text-foreground hover:text-muted-foreground transition-colors duration-[120ms] border-none"
                 aria-label="Menu"
