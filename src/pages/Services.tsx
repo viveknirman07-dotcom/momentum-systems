@@ -168,7 +168,7 @@ const Services = () => {
         </div>
       </section>
 
-      <section className="section-spacing border-t border-[hsl(var(--line-hair))]">
+      <section className="section-spacing">
         <div className="container-narrow">
           <h2 className="text-h2 mb-12">Frequently asked</h2>
           <Accordion type="single" collapsible className="w-full">
