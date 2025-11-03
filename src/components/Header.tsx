@@ -65,12 +65,7 @@ const Header = () => {
           {/* Mobile Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="lg:hidden">
-              <button
-                aria-label="Open menu"
-                aria-controls="mobile-menu"
-                aria-expanded={isOpen}
-                className="ml-auto inline-flex h-11 w-11 items-center justify-center p-0 text-foreground hover:text-foreground/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-              >
+              <button aria-label="Open menu" aria-controls="mobile-menu" aria-expanded={isOpen} className="ml-auto inline-flex h-11 w-11 items-center justify-center p-0 text-foreground hover:text-foreground/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background text-sm">
                 <Menu className="h-6 w-6" />
               </button>
             </SheetTrigger>
