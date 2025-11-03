@@ -173,7 +173,7 @@ const Services = () => {
           <h2 className="text-h2 mb-12">Frequently asked</h2>
           <Accordion type="single" collapsible className="w-full">
             {faq.map((item, index) => (
-              <AccordionItem key={index} value={`item-${index}`} className="border-[hsl(var(--line-hair))]">
+              <AccordionItem key={index} value={`item-${index}`} className="border-none">
                 <AccordionTrigger className="text-h4 text-left hover:no-underline">
                   {item.q}
                 </AccordionTrigger>

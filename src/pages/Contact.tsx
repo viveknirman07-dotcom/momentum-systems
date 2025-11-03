@@ -38,7 +38,7 @@ Budget: ${formData.budget || "Undecided"}
 Goal:
 ${formData.goal}`;
 
-    const mailtoLink = `mailto:bitwellforge@gmail.com?subject=${encodeURIComponent(
+    const mailtoLink = `mailto:v@bitwellforge.com?subject=${encodeURIComponent(
       subject
     )}&body=${encodeURIComponent(body)}`;
     

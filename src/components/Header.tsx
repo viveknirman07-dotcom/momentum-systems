@@ -92,7 +92,7 @@ const Header = () => {
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="lg:hidden">
               <button
-                className="text-foreground hover:text-muted-foreground transition-colors duration-[120ms]"
+                className="text-foreground hover:text-muted-foreground transition-colors duration-[120ms] border-none"
                 aria-label="Menu"
               >
                 <Menu className="w-6 h-6" />
@@ -100,7 +100,7 @@ const Header = () => {
             </SheetTrigger>
             <SheetContent 
               side="top" 
-              className="bg-[#0A0A0A] border-[hsl(var(--line-hair))] max-h-[90vh] overflow-y-auto rounded-b-2xl shadow-[0_16px_60px_rgba(0,0,0,0.60)]"
+              className="bg-[#0A0A0A] border-none max-h-[90vh] overflow-y-auto rounded-b-2xl shadow-[0_16px_60px_rgba(0,0,0,0.60)]"
             >
               <nav className="flex flex-col gap-0 mt-8">
                 {navItems.map((item, index) => (
@@ -116,9 +116,6 @@ const Header = () => {
                     >
                       {item.label}
                     </Link>
-                    {index < navItems.length - 1 && (
-                      <div className="h-[1px] bg-[hsl(var(--line-hair))]" />
-                    )}
                   </div>
                 ))}
               </nav>
