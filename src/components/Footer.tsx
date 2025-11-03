@@ -35,7 +35,7 @@ const Footer = () => {
           {/* Contact Column */}
           <div>
             <h4 className="text-caption font-medium mb-6 text-foreground">Contact</h4>
-            <a href="mailto:v@bitwellforge.com?subject=Inquiry%20from%20BitwellForge%20Site" className="text-caption text-muted-foreground hover:text-foreground hover-underline transition-colors duration-[120ms] block mb-6 w-fit">v@bitwellforge.com</a>
+            
             <div className="flex items-center gap-4">
               <a href="https://www.instagram.com/bitwellforge/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors duration-[120ms]" aria-label="Instagram">
                 <Instagram className="w-5 h-5" />
