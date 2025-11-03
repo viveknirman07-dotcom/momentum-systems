@@ -155,8 +155,7 @@ const Services = () => {
                   <p className="text-body-m text-muted-foreground mb-4">{service.blurb}</p>
                   <ul className="space-y-2">
                     {service.bullets.map((bullet, bulletIndex) => (
-                      <li key={bulletIndex} className="text-caption text-muted-foreground flex items-start">
-                        <span className="text-foreground mr-2">—</span>
+                      <li key={bulletIndex} className="text-caption text-muted-foreground">
                         {bullet}
                       </li>
                     ))}
