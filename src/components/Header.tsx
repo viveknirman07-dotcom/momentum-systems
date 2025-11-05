@@ -34,7 +34,12 @@ const Header = () => {
       });
     }
   }, []);
-  return <header className="site-header sticky top-0 z-50 backdrop-blur-[12px] border-b border-white/[0.08]" style={{ background: 'rgba(10, 10, 10, 0.35)', backdropFilter: 'blur(12px) saturate(120%)', WebkitBackdropFilter: 'blur(12px) saturate(120%)', boxShadow: '0 2px 16px rgba(0, 0, 0, 0.25)' }}>
+  return <header className="site-header sticky top-0 z-50 backdrop-blur-[12px] border-b border-white/[0.08]" style={{
+    background: 'rgba(10, 10, 10, 0.35)',
+    backdropFilter: 'blur(12px) saturate(120%)',
+    WebkitBackdropFilter: 'blur(12px) saturate(120%)',
+    boxShadow: '0 2px 16px rgba(0, 0, 0, 0.25)'
+  }}>
       <div className="container-standard relative">
         <div className="flex items-center justify-between h-[72px] lg:h-[72px] md:h-[64px] sm:h-[56px]">
           {/* Logo */}
@@ -65,26 +70,13 @@ const Header = () => {
           {/* Mobile Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="lg:hidden">
-              <button
-                className="menu-toggle"
-                aria-label={isOpen ? "Close menu" : "Open menu"}
-                aria-controls="mobile-menu"
-                aria-expanded={isOpen}
-              >
-                <span className="hamburger" aria-hidden="true">
-                  <span />
-                  <span />
-                  <span />
-                </span>
+              <button className="menu-toggle" aria-label={isOpen ? "Close menu" : "Open menu"} aria-controls="mobile-menu" aria-expanded={isOpen}>
+                
               </button>
             </SheetTrigger>
             <SheetContent side="top" className="bg-background border-[hsl(var(--line-hair))] max-h-[90vh] overflow-y-auto rounded-b-2xl shadow-[0_16px_60px_rgba(0,0,0,0.60)]">
               {/* Close button - plain X */}
-              <button
-                onClick={() => setIsOpen(false)}
-                className="menu-close lg:hidden"
-                aria-label="Close menu"
-              >
+              <button onClick={() => setIsOpen(false)} className="menu-close lg:hidden" aria-label="Close menu">
                 <span className="x" aria-hidden="true" />
               </button>
               <nav id="mobile-menu" className="flex flex-col gap-0 mt-8">
