@@ -275,6 +275,104 @@
     outline: 3px solid hsl(var(--foreground));
     outline-offset: 3px;
   }
+  
+  /* Mobile hamburger menu button specifics */
+  @media (max-width: 768px) {
+    header {
+      position: relative;
+    }
+    
+    header .menu-toggle:focus-visible {
+      outline: 2px solid #fff !important;
+      outline-offset: 3px !important;
+    }
+    
+    header .site-logo,
+    [data-el="site-logo"] {
+      position: relative;
+      z-index: 110;
+    }
+  }
+}
+
+/* Mobile Typography Lock - Disable text inflation and set small elegant sizes */
+html, body, #root {
+  -webkit-text-size-adjust: 100% !important;
+  text-size-adjust: 100% !important;
+}
+
+@media (max-width: 768px) {
+  /* Base scale */
+  html {
+    font-size: 15px;
+  }
+  
+  body {
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+  }
+  
+  /* Hero + headings - small elegant scale */
+  .hero h1,
+  h1,
+  .text-display {
+    font-size: clamp(28px, 7vw, 34px) !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.01em !important;
+  }
+  
+  h2,
+  .text-h2 {
+    font-size: clamp(22px, 5.5vw, 26px) !important;
+    line-height: 1.2 !important;
+  }
+  
+  h3,
+  .text-h3 {
+    font-size: clamp(18px, 4.8vw, 22px) !important;
+    line-height: 1.25 !important;
+  }
+  
+  /* Body text */
+  p,
+  li,
+  .text-body-l,
+  .text-body-m {
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+  }
+  
+  /* Small text */
+  .eyebrow,
+  .caption,
+  .text-caption,
+  small {
+    font-size: 13px !important;
+    line-height: 1.45 !important;
+  }
+  
+  /* Buttons/links */
+  .btn,
+  button,
+  a.button {
+    font-size: 15px !important;
+  }
+  
+  /* Hero sub-headline */
+  .hero .subhead,
+  .hero p.lead {
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+    letter-spacing: 0.005em !important;
+    max-width: 36ch;
+  }
+  
+  /* Neutralize library overrides */
+  [class*="Text--lg"],
+  [class*="Title--lg"] {
+    font-size: inherit !important;
+    line-height: inherit !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

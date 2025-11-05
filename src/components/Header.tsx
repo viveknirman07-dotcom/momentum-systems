@@ -34,7 +34,7 @@ const Header = () => {
       });
     }
   }, []);
-  return <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-[hsl(var(--line-hair))]">
+  return <header className="site-header sticky top-0 z-50 backdrop-blur-[12px] border-b border-white/[0.08]" style={{ background: 'rgba(10, 10, 10, 0.35)', backdropFilter: 'blur(12px) saturate(120%)', WebkitBackdropFilter: 'blur(12px) saturate(120%)', boxShadow: '0 2px 16px rgba(0, 0, 0, 0.25)' }}>
       <div className="container-standard relative">
         <div className="flex items-center justify-between h-[72px] lg:h-[72px] md:h-[64px] sm:h-[56px]">
           {/* Logo */}
@@ -66,15 +66,16 @@ const Header = () => {
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="lg:hidden">
               <button
-                className="fixed top-[14px] right-4 z-[120] w-11 h-11 inline-flex items-center justify-center bg-transparent border-none p-0 text-foreground hover:opacity-90 active:scale-98 transition-all duration-[120ms] focus-visible:outline-2 focus-visible:outline-foreground focus-visible:outline-offset-2"
+                className="menu-toggle absolute top-4 right-4 z-[120] w-11 h-11 inline-flex items-center justify-center p-0 text-white hover:opacity-90 active:scale-[0.98] transition-all duration-[120ms]"
+                style={{ background: 'transparent', border: 'none', boxShadow: 'none', transform: 'none' }}
                 aria-label={isOpen ? "Close menu" : "Open menu"}
                 aria-controls="mobile-menu"
                 aria-expanded={isOpen}
               >
-                <span className="relative w-6 h-[18px] inline-block" aria-hidden="true">
-                  <span className="absolute left-0 right-0 top-0 h-[2px] bg-current rounded-sm" />
-                  <span className="absolute left-0 right-0 top-2 h-[2px] bg-current rounded-sm" />
-                  <span className="absolute left-0 right-0 bottom-0 h-[2px] bg-current rounded-sm" />
+                <span className="hamburger relative inline-block" style={{ width: '24px', height: '18px' }} aria-hidden="true">
+                  <span className="absolute left-0 right-0 h-[2px] bg-current rounded-sm" style={{ top: 0 }} />
+                  <span className="absolute left-0 right-0 h-[2px] bg-current rounded-sm" style={{ top: '8px' }} />
+                  <span className="absolute left-0 right-0 h-[2px] bg-current rounded-sm" style={{ bottom: 0 }} />
                 </span>
               </button>
             </SheetTrigger>
