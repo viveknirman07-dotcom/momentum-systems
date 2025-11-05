@@ -294,7 +294,7 @@
     
     header .menu-toggle {
       position: absolute;
-      top: calc(var(--edge-gap-mobile) - 2px);
+      top: var(--edge-gap-mobile);
       right: var(--edge-gap-mobile);
       z-index: 120;
       width: 44px;
@@ -342,7 +342,7 @@
     /* Close button (X icon) - plain, no box */
     .menu-close {
       position: absolute;
-      top: calc(var(--edge-gap-mobile) - 2px);
+      top: var(--edge-gap-mobile);
       right: var(--edge-gap-mobile);
       z-index: 130;
       width: 44px;
