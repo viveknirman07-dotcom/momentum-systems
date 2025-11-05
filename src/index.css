@@ -50,6 +50,9 @@
   --ease-premium: cubic-bezier(0.2, 0.8, 0.2, 1);
   --duration-fast: 120ms;
   --duration-medium: 140ms;
+  
+  /* Mobile edge gap */
+  --edge-gap-mobile: 16px;
 }
 
 @layer base {
@@ -280,17 +283,115 @@
   @media (max-width: 768px) {
     header {
       position: relative;
-    }
-    
-    header .menu-toggle:focus-visible {
-      outline: 2px solid #fff !important;
-      outline-offset: 3px !important;
+      padding-inline: var(--edge-gap-mobile);
     }
     
     header .site-logo,
     [data-el="site-logo"] {
       position: relative;
       z-index: 110;
+    }
+    
+    header .menu-toggle {
+      position: absolute;
+      top: calc(var(--edge-gap-mobile) - 2px);
+      right: var(--edge-gap-mobile);
+      z-index: 120;
+      width: 44px;
+      height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      transform: none !important;
+      color: #fff;
+    }
+    
+    .menu-toggle .hamburger {
+      position: relative;
+      width: 24px;
+      height: 18px;
+      display: inline-block;
+    }
+    
+    .menu-toggle .hamburger span {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: currentColor;
+      border-radius: 2px;
+    }
+    
+    .menu-toggle .hamburger span:nth-child(1) { top: 0; }
+    .menu-toggle .hamburger span:nth-child(2) { top: 8px; }
+    .menu-toggle .hamburger span:nth-child(3) { bottom: 0; }
+    
+    header .menu-toggle:focus-visible {
+      outline: 2px solid #fff !important;
+      outline-offset: 3px !important;
+    }
+    
+    header .menu-toggle:active {
+      transform: scale(0.98);
+    }
+    
+    /* Close button (X icon) - plain, no box */
+    .menu-close {
+      position: absolute;
+      top: calc(var(--edge-gap-mobile) - 2px);
+      right: var(--edge-gap-mobile);
+      z-index: 130;
+      width: 44px;
+      height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      color: currentColor;
+      cursor: pointer;
+    }
+    
+    .menu-close .x {
+      position: relative;
+      width: 22px;
+      height: 2px;
+      background: currentColor;
+      border-radius: 2px;
+      transform: rotate(45deg);
+    }
+    
+    .menu-close .x::before {
+      content: "";
+      position: absolute;
+      width: 22px;
+      height: 2px;
+      background: currentColor;
+      border-radius: 2px;
+      transform: rotate(-90deg);
+    }
+    
+    .menu-close:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 3px;
+    }
+    
+    .menu-close:active {
+      transform: scale(0.98);
+    }
+    
+    /* Neutralize any boxed styles on close button */
+    .menu-close,
+    .menu-close * {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
     }
   }
 }
@@ -302,9 +403,9 @@ html, body, #root {
 }
 
 @media (max-width: 768px) {
-  /* Base scale */
+  /* Base scale - smaller than before */
   html {
-    font-size: 15px;
+    font-size: 14px;
   }
   
   body {
@@ -312,24 +413,24 @@ html, body, #root {
     letter-spacing: 0.01em;
   }
   
-  /* Hero + headings - small elegant scale */
+  /* Hero + headings - compact, premium */
   .hero h1,
   h1,
   .text-display {
-    font-size: clamp(28px, 7vw, 34px) !important;
+    font-size: clamp(24px, 6.2vw, 30px) !important;
     line-height: 1.15 !important;
-    letter-spacing: -0.01em !important;
+    letter-spacing: -0.012em !important;
   }
   
   h2,
   .text-h2 {
-    font-size: clamp(22px, 5.5vw, 26px) !important;
+    font-size: clamp(20px, 5.1vw, 24px) !important;
     line-height: 1.2 !important;
   }
   
   h3,
   .text-h3 {
-    font-size: clamp(18px, 4.8vw, 22px) !important;
+    font-size: clamp(17px, 4.6vw, 20px) !important;
     line-height: 1.25 !important;
   }
   
@@ -338,7 +439,7 @@ html, body, #root {
   li,
   .text-body-l,
   .text-body-m {
-    font-size: 15px !important;
+    font-size: 14px !important;
     line-height: 1.55 !important;
   }
   
@@ -347,7 +448,7 @@ html, body, #root {
   .caption,
   .text-caption,
   small {
-    font-size: 13px !important;
+    font-size: 12px !important;
     line-height: 1.45 !important;
   }
   
@@ -355,15 +456,15 @@ html, body, #root {
   .btn,
   button,
   a.button {
-    font-size: 15px !important;
+    font-size: 14px !important;
   }
   
   /* Hero sub-headline */
   .hero .subhead,
   .hero p.lead {
-    font-size: 15px !important;
+    font-size: 14px !important;
     line-height: 1.55 !important;
-    letter-spacing: 0.005em !important;
+    letter-spacing: 0.004em !important;
     max-width: 36ch;
   }
   

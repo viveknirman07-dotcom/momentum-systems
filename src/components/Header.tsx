@@ -66,20 +66,27 @@ const Header = () => {
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="lg:hidden">
               <button
-                className="menu-toggle absolute top-4 right-4 z-[120] w-11 h-11 inline-flex items-center justify-center p-0 text-white hover:opacity-90 active:scale-[0.98] transition-all duration-[120ms]"
-                style={{ background: 'transparent', border: 'none', boxShadow: 'none', transform: 'none' }}
+                className="menu-toggle"
                 aria-label={isOpen ? "Close menu" : "Open menu"}
                 aria-controls="mobile-menu"
                 aria-expanded={isOpen}
               >
-                <span className="hamburger relative inline-block" style={{ width: '24px', height: '18px' }} aria-hidden="true">
-                  <span className="absolute left-0 right-0 h-[2px] bg-current rounded-sm" style={{ top: 0 }} />
-                  <span className="absolute left-0 right-0 h-[2px] bg-current rounded-sm" style={{ top: '8px' }} />
-                  <span className="absolute left-0 right-0 h-[2px] bg-current rounded-sm" style={{ bottom: 0 }} />
+                <span className="hamburger" aria-hidden="true">
+                  <span />
+                  <span />
+                  <span />
                 </span>
               </button>
             </SheetTrigger>
             <SheetContent side="top" className="bg-background border-[hsl(var(--line-hair))] max-h-[90vh] overflow-y-auto rounded-b-2xl shadow-[0_16px_60px_rgba(0,0,0,0.60)]">
+              {/* Close button - plain X */}
+              <button
+                onClick={() => setIsOpen(false)}
+                className="menu-close lg:hidden"
+                aria-label="Close menu"
+              >
+                <span className="x" aria-hidden="true" />
+              </button>
               <nav id="mobile-menu" className="flex flex-col gap-0 mt-8">
                 {navItems.map((item, index) => <div key={item.href}>
                     <Link to={item.href} onClick={() => setIsOpen(false)} className={`text-[22px] font-normal lowercase py-4 block transition-colors duration-[120ms] ${location.pathname === item.href ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
