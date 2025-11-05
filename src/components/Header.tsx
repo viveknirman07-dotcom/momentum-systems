@@ -71,28 +71,25 @@ const Header = () => {
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="lg:hidden">
               <button className="menu-toggle" aria-label={isOpen ? "Close menu" : "Open menu"} aria-controls="mobile-menu" aria-expanded={isOpen}>
-                <span className="hamburger" aria-hidden="true">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </span>
+                
               </button>
             </SheetTrigger>
-            <SheetContent side="top" className="bg-background border-none max-h-[90vh] overflow-y-auto rounded-b-2xl shadow-[0_16px_60px_rgba(0,0,0,0.60)]">
+            <SheetContent side="top" className="bg-background border-[hsl(var(--line-hair))] max-h-[90vh] overflow-y-auto rounded-b-2xl shadow-[0_16px_60px_rgba(0,0,0,0.60)]">
               {/* Close button - plain X */}
               <button onClick={() => setIsOpen(false)} className="menu-close lg:hidden" aria-label="Close menu">
                 <span className="x" aria-hidden="true" />
               </button>
               <nav id="mobile-menu" className="flex flex-col gap-0 mt-8">
-                {navItems.map((item) => <div key={item.href}>
+                {navItems.map((item, index) => <div key={item.href}>
                     <Link to={item.href} onClick={() => setIsOpen(false)} className={`text-[22px] font-normal lowercase py-4 block transition-colors duration-[120ms] ${location.pathname === item.href ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
                       {item.label}
                     </Link>
+                    {index < navItems.length - 1 && <div className="h-[1px] bg-[hsl(var(--line-hair))]" />}
                   </div>)}
               </nav>
               
               {/* Mobile Social Icons */}
-              <div className="flex items-center gap-6 mt-8 pt-6">
+              <div className="flex items-center gap-6 mt-8 pt-6 border-t border-[hsl(var(--line-hair))]">
                 <a href="https://www.instagram.com/bitwellforge/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors duration-[120ms]" aria-label="Instagram">
                   <Instagram className="w-6 h-6" />
                 </a>
