@@ -70,13 +70,7 @@ const Header = () => {
           {/* Mobile Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="lg:hidden">
-              <button className="menu-toggle" aria-label={isOpen ? "Close menu" : "Open menu"} aria-controls="mobile-menu" aria-expanded={isOpen}>
-                <span className="hamburger" aria-hidden="true">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </span>
-              </button>
+              
             </SheetTrigger>
             <SheetContent side="top" className="bg-background border-none max-h-[90vh] overflow-y-auto rounded-b-2xl shadow-[0_16px_60px_rgba(0,0,0,0.60)]">
               {/* Close button - plain X */}
@@ -84,7 +78,7 @@ const Header = () => {
                 <span className="x" aria-hidden="true" />
               </button>
               <nav id="mobile-menu" className="flex flex-col gap-0 mt-8">
-                {navItems.map((item) => <div key={item.href}>
+                {navItems.map(item => <div key={item.href}>
                     <Link to={item.href} onClick={() => setIsOpen(false)} className={`text-[22px] font-normal lowercase py-4 block transition-colors duration-[120ms] ${location.pathname === item.href ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
                       {item.label}
                     </Link>
