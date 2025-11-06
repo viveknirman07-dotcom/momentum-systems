@@ -78,9 +78,9 @@ const Header = () => {
                 </span>
               </button>
             </SheetTrigger>
-            <SheetContent side="top" className="mobile-menu-overlay bg-black text-white border-none p-0 max-w-none w-full h-full inset-0 rounded-none">
+            <SheetContent side="top" className="mobile-menu-overlay bg-black text-white border-none p-0 max-w-none w-full h-full inset-0 rounded-none data-[state=open]:animate-in data-[state=closed]:animate-out">
               {/* Close button - plain X */}
-              <button onClick={() => setIsOpen(false)} className="menu-close" aria-label="Close menu">
+              <button onClick={() => setIsOpen(false)} className="menu-close" aria-label="Close menu" type="button">
                 <span className="x" aria-hidden="true" />
               </button>
               <nav id="mobile-menu" className="mobile-menu-nav">

@@ -341,57 +341,70 @@
     
     /* Close button (X icon) - plain, no box */
     .menu-close {
-      position: absolute;
-      top: calc(var(--edge-gap-mobile) + 4px);
-      right: var(--edge-gap-mobile);
-      z-index: 130;
-      width: 44px;
-      height: 44px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      position: fixed !important;
+      top: var(--edge-gap-mobile) !important;
+      right: var(--edge-gap-mobile) !important;
+      z-index: 9999 !important;
+      width: 44px !important;
+      height: 44px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
       background: transparent !important;
       border: none !important;
       box-shadow: none !important;
       padding: 0 !important;
-      color: #fff;
-      cursor: pointer;
+      margin: 0 !important;
+      color: #fff !important;
+      cursor: pointer !important;
+      border-radius: 0 !important;
+      outline: none !important;
+    }
+    
+    /* Remove all possible container styles */
+    .menu-close::before,
+    .menu-close::after {
+      display: none !important;
     }
     
     .menu-close .x {
       position: relative;
       width: 22px;
       height: 2px;
-      background: currentColor;
-      border-radius: 2px;
+      background: #fff;
+      border-radius: 1px;
       transform: rotate(45deg);
     }
     
     .menu-close .x::before {
       content: "";
       position: absolute;
+      top: 0;
+      left: 0;
       width: 22px;
       height: 2px;
-      background: currentColor;
-      border-radius: 2px;
+      background: #fff;
+      border-radius: 1px;
       transform: rotate(-90deg);
     }
     
     .menu-close:focus-visible {
-      outline: 2px solid currentColor;
-      outline-offset: 3px;
+      outline: 2px solid #fff !important;
+      outline-offset: 3px !important;
     }
     
     .menu-close:active {
-      transform: scale(0.98);
+      transform: scale(0.98) !important;
     }
     
-    /* Neutralize any boxed styles on close button */
+    /* Neutralize ALL possible boxed styles */
     .menu-close,
-    .menu-close * {
+    .menu-close *:not(.x):not(.x::before) {
       background: transparent !important;
+      background-color: transparent !important;
       border: none !important;
       box-shadow: none !important;
+      backdrop-filter: none !important;
     }
     
     /* Mobile menu overlay - fullscreen black */
@@ -402,9 +415,16 @@
       max-height: 100vh !important;
       background: #000 !important;
       color: #fff !important;
-      padding-top: calc(env(safe-area-inset-top) + 72px) !important;
+      padding-top: calc(env(safe-area-inset-top) + 80px) !important;
       padding-inline: var(--edge-gap-mobile) !important;
       padding-bottom: 32px !important;
+      overflow-y: auto !important;
+    }
+    
+    /* Remove any close button that might be added by sheet component */
+    .mobile-menu-overlay > button[aria-label*="Close"],
+    .mobile-menu-overlay > button:not(.menu-close) {
+      display: none !important;
     }
     
     /* Menu navigation list */
