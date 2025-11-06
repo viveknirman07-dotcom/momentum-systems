@@ -339,7 +339,7 @@
       transform: scale(0.98);
     }
     
-    /* Close button (X icon) - plain, no box */
+    /* Close button (X icon) - with rounded container like reference */
     .menu-close {
       position: fixed !important;
       top: var(--edge-gap-mobile) !important;
@@ -350,26 +350,28 @@
       display: inline-flex !important;
       align-items: center !important;
       justify-content: center !important;
-      background: transparent !important;
-      border: none !important;
-      box-shadow: none !important;
+      background: rgba(255, 255, 255, 0.1) !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      border-radius: 12px !important;
+      backdrop-filter: blur(10px) !important;
+      -webkit-backdrop-filter: blur(10px) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
       padding: 0 !important;
       margin: 0 !important;
       color: #fff !important;
       cursor: pointer !important;
-      border-radius: 0 !important;
-      outline: none !important;
+      transition: all 0.2s ease !important;
     }
     
-    /* Remove all possible container styles */
-    .menu-close::before,
-    .menu-close::after {
-      display: none !important;
+    .menu-close:hover {
+      background: rgba(255, 255, 255, 0.15) !important;
+      border-color: rgba(255, 255, 255, 0.3) !important;
+      transform: scale(1.05) !important;
     }
     
     .menu-close .x {
       position: relative;
-      width: 22px;
+      width: 18px;
       height: 2px;
       background: #fff;
       border-radius: 1px;
@@ -381,7 +383,7 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 22px;
+      width: 18px;
       height: 2px;
       background: #fff;
       border-radius: 1px;
@@ -394,20 +396,10 @@
     }
     
     .menu-close:active {
-      transform: scale(0.98) !important;
+      transform: scale(0.95) !important;
     }
     
-    /* Neutralize ALL possible boxed styles */
-    .menu-close,
-    .menu-close *:not(.x):not(.x::before) {
-      background: transparent !important;
-      background-color: transparent !important;
-      border: none !important;
-      box-shadow: none !important;
-      backdrop-filter: none !important;
-    }
-    
-    /* Mobile menu overlay - fullscreen black */
+    /* Mobile menu overlay - fullscreen black with fade-in animation */
     .mobile-menu-overlay {
       position: fixed !important;
       inset: 0 !important;
@@ -419,17 +411,42 @@
       padding-inline: var(--edge-gap-mobile) !important;
       padding-bottom: 32px !important;
       overflow-y: auto !important;
+      animation: menuFadeIn 0.3s ease-out !important;
+    }
+    
+    /* Fade-in animation for menu */
+    @keyframes menuFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     
     /* Remove any close button that might be added by sheet component */
-    .mobile-menu-overlay > button[aria-label*="Close"],
+    .mobile-menu-overlay > button[aria-label*="Close"]:not(.menu-close),
     .mobile-menu-overlay > button:not(.menu-close) {
       display: none !important;
     }
     
-    /* Menu navigation list */
+    /* Menu navigation list with staggered fade-in */
     .mobile-menu-nav {
       margin-top: 0;
+      animation: menuContentFadeIn 0.4s ease-out 0.1s backwards;
+    }
+    
+    @keyframes menuContentFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     
     .nav-list {
