@@ -70,33 +70,34 @@ const Header = () => {
           {/* Mobile Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="lg:hidden">
-              
+              <button className="menu-toggle" aria-label="Open menu" aria-controls="mobile-menu">
+                <span className="hamburger">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </span>
+              </button>
             </SheetTrigger>
-            <SheetContent side="top" className="bg-background border-none max-h-[90vh] overflow-y-auto rounded-b-2xl shadow-[0_16px_60px_rgba(0,0,0,0.60)]">
+            <SheetContent side="top" className="mobile-menu-overlay bg-black text-white border-none p-0 max-w-none w-full h-full inset-0 rounded-none">
               {/* Close button - plain X */}
-              <button onClick={() => setIsOpen(false)} className="menu-close lg:hidden" aria-label="Close menu">
+              <button onClick={() => setIsOpen(false)} className="menu-close" aria-label="Close menu">
                 <span className="x" aria-hidden="true" />
               </button>
-              <nav id="mobile-menu" className="flex flex-col gap-0 mt-8">
-                {navItems.map(item => <div key={item.href}>
-                    <Link to={item.href} onClick={() => setIsOpen(false)} className={`text-[22px] font-normal lowercase py-4 block transition-colors duration-[120ms] ${location.pathname === item.href ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
-                      {item.label}
-                    </Link>
-                  </div>)}
+              <nav id="mobile-menu" className="mobile-menu-nav">
+                <ul className="nav-list">
+                  {navItems.map((item, index) => (
+                    <li key={item.href}>
+                      <Link 
+                        to={item.href} 
+                        onClick={() => setIsOpen(false)} 
+                        className="mobile-menu-link"
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </nav>
-              
-              {/* Mobile Social Icons */}
-              <div className="flex items-center gap-6 mt-8 pt-6">
-                <a href="https://www.instagram.com/bitwellforge/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors duration-[120ms]" aria-label="Instagram">
-                  <Instagram className="w-6 h-6" />
-                </a>
-                <a href="https://www.linkedin.com/company/bitwellforge/about/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors duration-[120ms]" aria-label="LinkedIn">
-                  <Linkedin className="w-6 h-6" />
-                </a>
-                <a href="mailto:v@bitwellforge.com?subject=Inquiry%20from%20BitwellForge%20Site" className="text-muted-foreground hover:text-foreground transition-colors duration-[120ms]" aria-label="Email">
-                  <Mail className="w-6 h-6" />
-                </a>
-              </div>
             </SheetContent>
           </Sheet>
         </div>
