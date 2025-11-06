@@ -70,13 +70,7 @@ const Header = () => {
           {/* Mobile Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="lg:hidden">
-              <button className="menu-toggle" aria-label="Open menu" aria-controls="mobile-menu">
-                <span className="hamburger">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </span>
-              </button>
+              
             </SheetTrigger>
             <SheetContent side="top" className="mobile-menu-overlay bg-black text-white border-none p-0 max-w-none w-full h-full inset-0 rounded-none data-[state=open]:animate-in data-[state=closed]:animate-out">
               {/* Close button - plain X */}
@@ -85,17 +79,11 @@ const Header = () => {
               </button>
               <nav id="mobile-menu" className="mobile-menu-nav">
                 <ul className="nav-list">
-                  {navItems.map((item, index) => (
-                    <li key={item.href}>
-                      <Link 
-                        to={item.href} 
-                        onClick={() => setIsOpen(false)} 
-                        className="mobile-menu-link"
-                      >
+                  {navItems.map((item, index) => <li key={item.href}>
+                      <Link to={item.href} onClick={() => setIsOpen(false)} className="mobile-menu-link">
                         {item.label}
                       </Link>
-                    </li>
-                  ))}
+                    </li>)}
                 </ul>
               </nav>
             </SheetContent>
