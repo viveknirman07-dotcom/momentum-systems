@@ -264,7 +264,6 @@
     padding: 0.9rem 1.2rem;
     font-weight: 600;
     min-width: 160px;
-    border: 1px solid currentColor;
   }
   
   .btn-primary, button[variant="default"] {
@@ -294,24 +293,27 @@
     [data-el="site-logo"] {
       position: relative;
       z-index: 110;
+      pointer-events: none !important;
     }
     
     header .menu-toggle {
-      position: absolute;
-      top: calc(env(safe-area-inset-top, 0) + var(--edge-gap-mobile));
-      right: var(--edge-gap-mobile);
-      z-index: 120;
-      width: 40px;
-      height: 40px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      position: fixed !important;
+      top: calc(env(safe-area-inset-top, 0) + 12px) !important;
+      right: 12px !important;
+      z-index: 120 !important;
+      width: 32px !important;
+      height: 32px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
       background: transparent !important;
       border: none !important;
       box-shadow: none !important;
       padding: 0 !important;
+      margin: 0 !important;
       transform: none !important;
-      color: #fff;
+      color: #fff !important;
+      line-height: 0 !important;
     }
     
     .menu-toggle .hamburger {
