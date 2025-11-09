@@ -3,6 +3,7 @@ import { Instagram, Linkedin, Menu, Mail } from "lucide-react";
 import { useState, useEffect } from "react";
 import logo from "@/assets/bitwellforge-logo-new.png";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { ThemeToggle } from "@/components/ThemeToggle";
 const Header = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
@@ -54,8 +55,9 @@ const Header = () => {
               </Link>)}
           </nav>
 
-          {/* Social Icons - Desktop */}
+          {/* Social Icons & Theme Toggle - Desktop */}
           <div className="hidden lg:flex items-center gap-4">
+            <ThemeToggle />
             <a href="https://www.instagram.com/bitwellforge/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors duration-[120ms]" aria-label="Instagram">
               <Instagram className="w-5 h-5" />
             </a>
@@ -92,6 +94,19 @@ const Header = () => {
                     </li>)}
                 </ul>
               </nav>
+              
+              {/* Mobile Social Icons */}
+              <div className="mobile-social-icons">
+                <a href="https://www.instagram.com/bitwellforge/" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors duration-200" aria-label="Instagram">
+                  <Instagram className="w-6 h-6" />
+                </a>
+                <a href="https://www.linkedin.com/company/bitwellforge/about/" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors duration-200" aria-label="LinkedIn">
+                  <Linkedin className="w-6 h-6" />
+                </a>
+                <a href="mailto:v@bitwellforge.com?subject=Inquiry%20from%20BitwellForge%20Site" className="text-white/70 hover:text-white transition-colors duration-200" aria-label="Email">
+                  <Mail className="w-6 h-6" />
+                </a>
+              </div>
             </SheetContent>
           </Sheet>
         </div>
