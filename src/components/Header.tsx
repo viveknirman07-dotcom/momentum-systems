@@ -6,28 +6,6 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 const Header = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
-  
-  // Keyboard navigation and body scroll lock
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
-        setIsOpen(false);
-      }
-    };
-    
-    if (isOpen) {
-      document.addEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
-    };
-  }, [isOpen]);
-  
   const navItems = [{
     label: "home",
     href: "/"
@@ -92,12 +70,7 @@ const Header = () => {
           {/* Mobile Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="lg:hidden">
-              <button 
-                type="button" 
-                className="menu-toggle" 
-                aria-label={isOpen ? "Close menu" : "Open menu"}
-                data-state={isOpen ? "open" : "closed"}
-              >
+              <button type="button" className="menu-toggle" aria-label="Open menu">
                 <span className="hamburger" aria-hidden="true">
                   <span />
                   <span />
@@ -106,6 +79,10 @@ const Header = () => {
               </button>
             </SheetTrigger>
             <SheetContent side="top" className="mobile-menu-overlay bg-black text-white border-none p-0 max-w-none w-full h-full inset-0 rounded-none data-[state=open]:animate-in data-[state=closed]:animate-out">
+              {/* Close button - plain X */}
+              <button onClick={() => setIsOpen(false)} className="menu-close" aria-label="Close menu" type="button">
+                <span className="x" aria-hidden="true" />
+              </button>
               <nav id="mobile-menu" className="mobile-menu-nav">
                 <ul className="nav-list">
                   {navItems.map((item, index) => <li key={item.href}>
