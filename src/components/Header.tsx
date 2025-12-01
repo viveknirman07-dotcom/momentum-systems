@@ -23,18 +23,15 @@ const Header = () => {
     label: "contact",
     href: "/contact"
   }];
-  useEffect(() => {
-    const logoEl = document.querySelector('[data-el="site-logo"]') as HTMLElement;
-    if (logoEl && !logoEl.hasAttribute('data-spin-bound')) {
-      logoEl.setAttribute('data-spin-bound', '1');
-      logoEl.addEventListener('click', e => {
-        e.preventDefault();
-        logoEl.classList.remove('logo-spin');
-        void logoEl.offsetWidth;
-        logoEl.classList.add('logo-spin');
-      });
-    }
-  }, []);
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const logoEl = e.currentTarget as HTMLElement;
+    const isMobile = window.innerWidth <= 768;
+    
+    logoEl.classList.remove('logo-spin', 'logo-shake');
+    void logoEl.offsetWidth; // Trigger reflow
+    logoEl.classList.add(isMobile ? 'logo-shake' : 'logo-spin');
+  };
   return <header className="site-header sticky top-0 z-50 backdrop-blur-[12px] border-b border-white/[0.08]" style={{
     background: 'rgba(10, 10, 10, 0.35)',
     backdropFilter: 'blur(12px) saturate(120%)',
@@ -44,7 +41,7 @@ const Header = () => {
       <div className="container-standard relative">
         <div className="flex items-center justify-between h-[72px] lg:h-[72px] md:h-[64px] sm:h-[56px]">
           {/* Logo */}
-          <Link to="/" className="flex-shrink-0 group" data-el="site-logo" role="img" aria-label="BitwellForge logo">
+          <Link to="/" className="flex-shrink-0 group" data-el="site-logo" role="img" aria-label="BitwellForge logo" onClick={handleLogoClick}>
             <img src={logo} alt="BitwellForge" className="h-10 w-10 transition-all duration-[600ms] ease-out" />
           </Link>
 
