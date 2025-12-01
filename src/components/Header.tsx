@@ -46,8 +46,8 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-7">
-            {navItems.map(item => <Link key={item.href} to={item.href} className={`text-[16px] font-normal lowercase hover-underline transition-colors duration-[120ms] ${location.pathname === item.href ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+          <nav className="hidden lg:flex items-center gap-7 mr-5">
+            {navItems.map(item => <Link key={item.href} to={item.href} className={`text-[14.4px] font-normal lowercase hover-underline transition-colors duration-[120ms] ${location.pathname === item.href ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
                 {item.label}
               </Link>)}
           </nav>

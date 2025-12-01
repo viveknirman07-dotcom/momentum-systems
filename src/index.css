@@ -749,7 +749,11 @@ button,
 /* Desktop layout and animations */
 @media (min-width: 1025px) {
   /* Desktop nav fade-scale animation */
-  .site-header nav {
+  .site-header nav.hidden {
+    display: none !important;
+  }
+  
+  .site-header nav:not(.hidden) {
     animation: fadeScale 0.35s ease-in-out;
   }
   
@@ -762,11 +766,6 @@ button,
       opacity: 1;
       transform: scale(1);
     }
-  }
-  
-  /* Menu bar sizing - 0.9× smaller than logo */
-  .site-header nav a {
-    font-size: 0.9em;
   }
 }
 
