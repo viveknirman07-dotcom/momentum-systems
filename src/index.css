@@ -746,22 +746,10 @@ button,
   transform: translateZ(0);
 }
 
-/* Desktop fullscreen layout */
+/* Desktop layout and animations */
 @media (min-width: 1025px) {
-  .container-standard {
-    max-width: 100%;
-    padding-left: 0;
-    padding-right: 0;
-  }
-  
-  .site-header .container-standard {
-    max-width: 100%;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-  
   /* Desktop nav fade-scale animation */
-  nav.hidden.lg\\:flex {
+  .site-header nav {
     animation: fadeScale 0.35s ease-in-out;
   }
   
@@ -774,6 +762,11 @@ button,
       opacity: 1;
       transform: scale(1);
     }
+  }
+  
+  /* Menu bar sizing - 0.9× smaller than logo */
+  .site-header nav a {
+    font-size: 0.9em;
   }
 }
 
