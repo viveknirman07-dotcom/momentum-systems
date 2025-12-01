@@ -32,11 +32,10 @@ const Header = () => {
     void logoEl.offsetWidth; // Trigger reflow
     logoEl.classList.add(isMobile ? 'logo-shake' : 'logo-spin');
   };
-  return <header className="site-header sticky top-0 z-50 backdrop-blur-[12px] border-b border-white/[0.08]" style={{
-    background: 'rgba(10, 10, 10, 0.35)',
+  return <header className="site-header sticky top-0 z-50 backdrop-blur-[12px] border-b border-border" style={{
     backdropFilter: 'blur(12px) saturate(120%)',
     WebkitBackdropFilter: 'blur(12px) saturate(120%)',
-    boxShadow: '0 2px 16px rgba(0, 0, 0, 0.25)'
+    boxShadow: '0 2px 16px rgba(0, 0, 0, 0.05)'
   }}>
       <div className="container-standard relative">
         <div className="flex items-center justify-between h-[72px] lg:h-[72px] md:h-[64px] sm:h-[56px]">
@@ -71,7 +70,7 @@ const Header = () => {
             <SheetTrigger asChild className="lg:hidden">
               
             </SheetTrigger>
-            <SheetContent side="top" className="mobile-menu-overlay bg-black text-white border-none p-0 max-w-none w-full h-full inset-0 rounded-none data-[state=open]:animate-in data-[state=closed]:animate-out">
+            <SheetContent side="top" className="mobile-menu-overlay bg-background text-foreground border-none p-0 max-w-none w-full h-full inset-0 rounded-none data-[state=open]:animate-in data-[state=closed]:animate-out">
               {/* Close button - plain X */}
               <button onClick={() => setIsOpen(false)} className="menu-close" aria-label="Close menu" type="button">
                 <span className="x" aria-hidden="true" />
@@ -88,13 +87,13 @@ const Header = () => {
               
               {/* Mobile Social Icons */}
               <div className="mobile-social-icons">
-                <a href="https://www.instagram.com/bitwellforge/" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors duration-200" aria-label="Instagram">
+                <a href="https://www.instagram.com/bitwellforge/" target="_blank" rel="noopener noreferrer" className="text-foreground/70 hover:text-foreground transition-colors duration-200" aria-label="Instagram">
                   <Instagram className="w-6 h-6" />
                 </a>
-                <a href="https://www.linkedin.com/company/bitwellforge/about/" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors duration-200" aria-label="LinkedIn">
+                <a href="https://www.linkedin.com/company/bitwellforge/about/" target="_blank" rel="noopener noreferrer" className="text-foreground/70 hover:text-foreground transition-colors duration-200" aria-label="LinkedIn">
                   <Linkedin className="w-6 h-6" />
                 </a>
-                <a href="mailto:v@bitwellforge.com?subject=Inquiry%20from%20BitwellForge%20Site" className="text-white/70 hover:text-white transition-colors duration-200" aria-label="Email">
+                <a href="mailto:v@bitwellforge.com?subject=Inquiry%20from%20BitwellForge%20Site" className="text-foreground/70 hover:text-foreground transition-colors duration-200" aria-label="Email">
                   <Mail className="w-6 h-6" />
                 </a>
               </div>
