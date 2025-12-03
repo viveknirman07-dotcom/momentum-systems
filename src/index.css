@@ -56,40 +56,40 @@
 }
 
 .light {
-  /* Light theme - White background with black text */
+  /* Light theme - White background with dark navy blue text */
   --background: 0 0% 100%;
-  --foreground: 0 0% 0%;
+  --foreground: 220 50% 18%;
   
-  --ink-primary: 0 0% 0%;
-  --ink-secondary: 0 0% 30%;
-  --line-hair: 0 0% 0% / 0.10;
-  --interactive: 0 0% 0% / 0.92;
-  --focus-ring: 0 0% 0% / 0.24;
+  --ink-primary: 220 50% 18%;
+  --ink-secondary: 220 40% 35%;
+  --line-hair: 220 50% 18% / 0.10;
+  --interactive: 220 50% 18% / 0.92;
+  --focus-ring: 220 50% 18% / 0.24;
   
-  --card: 0 0% 0% / 0.02;
-  --card-foreground: 0 0% 0%;
+  --card: 220 50% 18% / 0.02;
+  --card-foreground: 220 50% 18%;
   
-  --primary: 0 0% 0%;
+  --primary: 220 50% 18%;
   --primary-foreground: 0 0% 100%;
   
-  --secondary: 0 0% 0% / 0.04;
-  --secondary-foreground: 0 0% 0%;
+  --secondary: 220 50% 18% / 0.04;
+  --secondary-foreground: 220 50% 18%;
   
-  --muted: 0 0% 0% / 0.04;
-  --muted-foreground: 0 0% 30%;
+  --muted: 220 50% 18% / 0.04;
+  --muted-foreground: 220 40% 35%;
   
-  --accent: 0 0% 0% / 0.08;
-  --accent-foreground: 0 0% 0%;
+  --accent: 220 50% 18% / 0.08;
+  --accent-foreground: 220 50% 18%;
   
   --destructive: 0 62% 50%;
   --destructive-foreground: 0 0% 100%;
   
-  --border: 0 0% 0% / 0.10;
-  --input: 0 0% 0% / 0.16;
-  --ring: 0 0% 0% / 0.24;
+  --border: 220 50% 18% / 0.10;
+  --input: 220 50% 18% / 0.16;
+  --ring: 220 50% 18% / 0.24;
   
-  --popover: 0 0% 96%;
-  --popover-foreground: 0 0% 0%;
+  --popover: 0 0% 98%;
+  --popover-foreground: 220 50% 18%;
 }
 
 @layer base {
