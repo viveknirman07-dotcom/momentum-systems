@@ -25,12 +25,12 @@ const Header = () => {
   }];
   const handleLogoClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    const logoEl = e.currentTarget as HTMLElement;
-    const isMobile = window.innerWidth <= 768;
-    
-    logoEl.classList.remove('logo-spin', 'logo-shake');
-    void logoEl.offsetWidth; // Trigger reflow
-    logoEl.classList.add(isMobile ? 'logo-shake' : 'logo-spin');
+    const logoImg = e.currentTarget.querySelector('img') as HTMLElement;
+    if (logoImg) {
+      logoImg.classList.remove('logo-spin', 'logo-shake');
+      void logoImg.offsetWidth; // Trigger reflow
+      logoImg.classList.add('logo-spin');
+    }
   };
   return <header className="site-header sticky top-0 z-50 backdrop-blur-[12px] border-b border-border bg-background">
       <div className="container-standard relative">
