@@ -32,12 +32,7 @@ const Header = () => {
     void logoEl.offsetWidth; // Trigger reflow
     logoEl.classList.add(isMobile ? 'logo-shake' : 'logo-spin');
   };
-  return <header className="site-header sticky top-0 z-50 backdrop-blur-[12px] border-b border-border" style={{
-    background: 'rgba(255, 255, 255, 0.85)',
-    backdropFilter: 'blur(12px) saturate(120%)',
-    WebkitBackdropFilter: 'blur(12px) saturate(120%)',
-    boxShadow: '0 2px 16px rgba(0, 0, 0, 0.06)'
-  }}>
+  return <header className="site-header sticky top-0 z-50 backdrop-blur-[12px] border-b border-border bg-background">
       <div className="container-standard relative">
         <div className="flex items-center justify-between h-[72px] lg:h-[72px] md:h-[64px] sm:h-[56px]">
           {/* Logo */}
