@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { Instagram, Linkedin, Menu, Mail } from "lucide-react";
 import { useState, useEffect } from "react";
-import logo from "@/assets/bitwellforge-text-logo.png";
+import logo from "@/assets/bitwellforge-logo-new.png";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/ThemeToggle";
 const Header = () => {
@@ -42,7 +42,7 @@ const Header = () => {
         <div className="flex items-center justify-between h-[72px] lg:h-[72px] md:h-[64px] sm:h-[56px]">
           {/* Logo */}
           <Link to="/" className="flex-shrink-0 group" data-el="site-logo" role="img" aria-label="BitwellForge logo" onClick={handleLogoClick}>
-            <img src={logo} alt="BitwellForge" className="h-8 transition-all duration-[600ms] ease-out" />
+            <img src={logo} alt="BitwellForge" className="h-10 w-10 transition-all duration-[600ms] ease-out" />
           </Link>
 
           {/* Desktop Navigation */}
