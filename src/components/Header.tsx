@@ -8,19 +8,19 @@ const Header = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const navItems = [{
-    label: "home",
+    label: "Home",
     href: "/"
   }, {
-    label: "services",
+    label: "Services",
     href: "/services"
   }, {
-    label: "testimonials",
+    label: "Testimonials",
     href: "/testimonials"
   }, {
-    label: "about",
+    label: "About",
     href: "/about"
   }, {
-    label: "contact",
+    label: "Contact",
     href: "/contact"
   }];
   const handleLogoClick = (e: React.MouseEvent) => {
@@ -42,7 +42,7 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-7">
-            {navItems.map(item => <Link key={item.href} to={item.href} className={`text-[16px] font-normal lowercase hover-underline transition-colors duration-[120ms] ${location.pathname === item.href ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+            {navItems.map(item => <Link key={item.href} to={item.href} className={`text-[16px] font-normal hover-underline transition-colors duration-[120ms] ${location.pathname === item.href ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}>
                 {item.label}
               </Link>)}
           </nav>
