@@ -58,35 +58,35 @@ export const CookieConsent = () => {
   return (
     <>
       {/* Cookie Banner */}
-      <div className="fixed bottom-0 left-0 right-0 z-[100] p-4 md:p-6 animate-in slide-in-from-bottom-5 duration-500">
+      <div className="fixed bottom-0 left-0 right-0 z-[100] p-3 md:p-6 animate-in slide-in-from-bottom-5 duration-500">
         <div className="container-standard">
-          <div className="relative backdrop-blur-xl bg-card/95 border border-border rounded-2xl shadow-2xl p-6 md:p-8">
+          <div className="relative backdrop-blur-xl bg-card/95 border border-border rounded-2xl shadow-2xl p-4 md:p-8">
             <button
               onClick={rejectAll}
-              className="absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors"
+              className="absolute top-3 right-3 md:top-4 md:right-4 min-w-[44px] min-h-[44px] flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
               aria-label="Close"
             >
               <X className="w-5 h-5" />
             </button>
             
-            <div className="pr-8">
-              <h3 className="text-h4 mb-3">We value your privacy</h3>
-              <p className="text-body-m text-muted-foreground mb-6 max-w-2xl">
+            <div className="pr-10 md:pr-8">
+              <h3 className="text-lg md:text-h4 mb-2 md:mb-3">We value your privacy</h3>
+              <p className="text-sm md:text-body-m text-muted-foreground mb-4 md:mb-6 max-w-2xl">
                 We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. 
                 By clicking "Accept All", you consent to our use of cookies.
               </p>
               
-              <div className="flex flex-wrap gap-3">
-                <Button onClick={acceptAll} size="lg">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                <Button onClick={acceptAll} className="w-full sm:w-auto">
                   Accept All
                 </Button>
-                <Button onClick={rejectAll} variant="outline" size="lg">
+                <Button onClick={rejectAll} variant="outline" className="w-full sm:w-auto">
                   Reject All
                 </Button>
                 <Button
                   onClick={() => setShowPreferences(true)}
                   variant="ghost"
-                  size="lg"
+                  className="w-full sm:w-auto"
                 >
                   Customize
                 </Button>
