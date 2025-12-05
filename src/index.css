@@ -483,16 +483,21 @@
     .menu-close:hover {
       background: transparent !important;
       border: none !important;
-      transform: none !important;
+    }
+    
+    .menu-close:hover .x,
+    .menu-close:hover .x::before {
+      background: rgba(255, 255, 255, 0.7);
     }
     
     .menu-close .x {
       position: relative;
-      width: 20px;
+      width: 24px;
       height: 2px;
       background: #fff;
-      border-radius: 1px;
+      border-radius: 2px;
       transform: rotate(45deg);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
     
     .menu-close .x::before {
@@ -500,11 +505,16 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 20px;
+      width: 24px;
       height: 2px;
       background: #fff;
-      border-radius: 1px;
+      border-radius: 2px;
       transform: rotate(-90deg);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .menu-close:hover .x {
+      transform: rotate(135deg);
     }
     
     .menu-close:focus-visible {
@@ -513,33 +523,37 @@
     }
     
     .menu-close:active {
-      transform: scale(0.95) !important;
+      transform: scale(0.92) !important;
     }
     
-    /* Mobile menu overlay - fullscreen black with fade-in animation */
+    /* Mobile menu overlay - fullscreen black with fade-in and blur animation */
     .mobile-menu-overlay {
       position: fixed !important;
       inset: 0 !important;
       max-width: 100vw !important;
       max-height: 100vh !important;
-      background: #000 !important;
+      background: rgba(0, 0, 0, 0.97) !important;
+      backdrop-filter: blur(20px) !important;
+      -webkit-backdrop-filter: blur(20px) !important;
       color: #fff !important;
       padding-top: calc(env(safe-area-inset-top, 0) + 20px) !important;
       padding-inline: var(--edge-gap-mobile) !important;
       padding-bottom: 32px !important;
       overflow-y: auto !important;
-      animation: menuFadeIn 0.3s ease-out !important;
+      animation: menuFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
     }
     
-    /* Fade-in animation for menu */
+    /* Fade-in animation for menu with blur */
     @keyframes menuFadeIn {
       from {
         opacity: 0;
-        transform: translateY(-10px);
+        backdrop-filter: blur(0);
+        -webkit-backdrop-filter: blur(0);
       }
       to {
         opacity: 1;
-        transform: translateY(0);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
       }
     }
     
@@ -607,9 +621,28 @@
       }
     }
     
+    .mobile-menu-link {
+      position: relative;
+    }
+    
+    .mobile-menu-link::after {
+      content: '';
+      position: absolute;
+      bottom: 16px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #fff, rgba(255,255,255,0.6));
+      transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .mobile-menu-link:hover::after {
+      width: 100%;
+    }
+    
     .mobile-menu-link:hover {
       transform: translateX(8px);
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
     
     .mobile-menu-link:focus-visible {
