@@ -64,7 +64,18 @@ const Header = () => {
           {/* Mobile Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="lg:hidden">
-              
+              <button 
+                className="hamburger-btn min-w-[44px] min-h-[44px] flex items-center justify-center"
+                aria-label="Open menu"
+                aria-expanded={isOpen}
+                aria-controls="mobile-menu"
+              >
+                <div className={`hamburger-icon ${isOpen ? 'open' : ''}`}>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </button>
             </SheetTrigger>
             <SheetContent side="top" className="mobile-menu-overlay bg-black text-white border-none p-0 max-w-none w-full h-full inset-0 rounded-none data-[state=open]:animate-in data-[state=closed]:animate-out">
               {/* Close button - plain X */}
