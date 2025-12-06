@@ -1,12 +1,35 @@
 import { Link, useLocation } from "react-router-dom";
 import { Instagram, Linkedin, Menu, Mail } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import logo from "@/assets/bitwellforge-logo-new.png";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/ThemeToggle";
+
 const Header = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const menuOverlayRef = useRef<HTMLDivElement>(null);
+
+  // Parallax scroll effect for menu items
+  const handleMenuScroll = useCallback((e: Event) => {
+    const target = e.target as HTMLElement;
+    const scrollTop = target.scrollTop;
+    const links = target.querySelectorAll('.mobile-menu-link');
+    
+    links.forEach((link, index) => {
+      const speed = 0.8 + (index * 0.1);
+      const offset = scrollTop * speed * 0.05;
+      (link as HTMLElement).style.setProperty('--parallax-offset', `${-offset}px`);
+    });
+  }, []);
+
+  useEffect(() => {
+    const overlay = menuOverlayRef.current;
+    if (isOpen && overlay) {
+      overlay.addEventListener('scroll', handleMenuScroll);
+      return () => overlay.removeEventListener('scroll', handleMenuScroll);
+    }
+  }, [isOpen, handleMenuScroll]);
   const navItems = [{
     label: "Home",
     href: "/"
@@ -77,7 +100,7 @@ const Header = () => {
                 </div>
               </button>
             </SheetTrigger>
-            <SheetContent side="top" className="mobile-menu-overlay bg-black text-white border-none p-0 max-w-none w-full h-full inset-0 rounded-none data-[state=open]:animate-in data-[state=closed]:animate-out">
+            <SheetContent ref={menuOverlayRef} side="top" className="mobile-menu-overlay bg-black text-white border-none p-0 max-w-none w-full h-full inset-0 rounded-none data-[state=open]:animate-in data-[state=closed]:animate-out">
               {/* Close button - plain X */}
               <button onClick={() => setIsOpen(false)} className="menu-close" aria-label="Close menu" type="button">
                 <span className="x" aria-hidden="true" />
