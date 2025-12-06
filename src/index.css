@@ -736,7 +736,12 @@
     
     .mobile-menu-link:hover {
       transform: translateX(8px);
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                  text-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      text-shadow: 
+        0 0 20px rgba(255, 255, 255, 0.6),
+        0 0 40px rgba(255, 255, 255, 0.3),
+        0 0 60px rgba(255, 255, 255, 0.15);
     }
     
     .mobile-menu-link:focus-visible {
