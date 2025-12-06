@@ -523,7 +523,16 @@
     }
     
     .menu-close:active {
-      transform: scale(0.92) !important;
+      transform: scale(0.85) !important;
+      transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+    
+    .menu-close:active .x {
+      transform: rotate(45deg) scale(0.9);
+    }
+    
+    .menu-close:active .x::before {
+      transform: rotate(-90deg) scale(0.9);
     }
     
     /* Mobile menu overlay - fullscreen black with fade-in and blur animation */
@@ -637,8 +646,17 @@
       padding: 18px 0 20px;
       text-transform: capitalize;
       opacity: 0;
-      transform: translateX(-20px);
+      transform: translateX(-20px) translateY(var(--parallax-offset, 0px));
+      transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
     }
+    
+    /* Parallax offsets for menu items - creates depth effect on scroll */
+    .nav-list > li:nth-child(1) .mobile-menu-link { --parallax-offset: 0px; --parallax-speed: 0.8; }
+    .nav-list > li:nth-child(2) .mobile-menu-link { --parallax-offset: 0px; --parallax-speed: 0.9; }
+    .nav-list > li:nth-child(3) .mobile-menu-link { --parallax-offset: 0px; --parallax-speed: 1.0; }
+    .nav-list > li:nth-child(4) .mobile-menu-link { --parallax-offset: 0px; --parallax-speed: 1.1; }
+    .nav-list > li:nth-child(5) .mobile-menu-link { --parallax-offset: 0px; --parallax-speed: 1.2; }
     
     /* Slide-in animation for opening */
     .mobile-menu-overlay[data-state="open"] .mobile-menu-link {
