@@ -459,11 +459,11 @@
     /* Close button (X icon) - plain X with no container */
     .menu-close {
       position: fixed !important;
-      top: calc(env(safe-area-inset-top, 0) + 6px) !important;
-      right: var(--edge-gap-mobile) !important;
+      top: calc(env(safe-area-inset-top, 0) + 12px) !important;
+      right: 12px !important;
       z-index: 9999 !important;
-      width: 44px !important;
-      height: 44px !important;
+      width: 32px !important;
+      height: 32px !important;
       display: inline-flex !important;
       align-items: center !important;
       justify-content: center !important;
