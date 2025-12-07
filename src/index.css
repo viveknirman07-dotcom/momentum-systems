@@ -459,8 +459,8 @@
     /* Close button (X icon) - plain X with no container */
     .menu-close {
       position: fixed !important;
-      top: calc(env(safe-area-inset-top, 0) + 16px) !important;
-      right: 16px !important;
+      top: calc(env(safe-area-inset-top, 0) + 6px) !important;
+      right: var(--edge-gap-mobile) !important;
       z-index: 9999 !important;
       width: 44px !important;
       height: 44px !important;
@@ -719,6 +719,7 @@
     .menu-item-stagger {
       opacity: 0;
       transform: translateY(20px);
+      filter: blur(8px);
     }
     
     .mobile-menu-overlay[data-state="open"] .menu-item-stagger {
@@ -729,10 +730,15 @@
       0% {
         opacity: 0;
         transform: translateY(20px);
+        filter: blur(8px);
+      }
+      70% {
+        filter: blur(2px);
       }
       100% {
         opacity: 1;
         transform: translateY(0);
+        filter: blur(0);
       }
     }
     
