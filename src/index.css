@@ -726,6 +726,25 @@
       animation: menuStaggerIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
     
+    /* Reverse stagger on close - items fade out from last to first */
+    .mobile-menu-overlay[data-state="closed"] .menu-item-stagger {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+      animation: menuStaggerOut 0.3s cubic-bezier(0.4, 0, 1, 1) forwards;
+    }
+    
+    .mobile-menu-overlay[data-state="closed"] li:nth-child(1) .menu-item-stagger,
+    .mobile-menu-overlay[data-state="closed"] li.menu-item-stagger:nth-child(1) { animation-delay: 0.12s; }
+    .mobile-menu-overlay[data-state="closed"] li:nth-child(2) .menu-item-stagger,
+    .mobile-menu-overlay[data-state="closed"] li.menu-item-stagger:nth-child(2) { animation-delay: 0.09s; }
+    .mobile-menu-overlay[data-state="closed"] li:nth-child(3) .menu-item-stagger,
+    .mobile-menu-overlay[data-state="closed"] li.menu-item-stagger:nth-child(3) { animation-delay: 0.06s; }
+    .mobile-menu-overlay[data-state="closed"] li:nth-child(4) .menu-item-stagger,
+    .mobile-menu-overlay[data-state="closed"] li.menu-item-stagger:nth-child(4) { animation-delay: 0.03s; }
+    .mobile-menu-overlay[data-state="closed"] li:nth-child(5) .menu-item-stagger,
+    .mobile-menu-overlay[data-state="closed"] li.menu-item-stagger:nth-child(5) { animation-delay: 0s; }
+    
     @keyframes menuStaggerIn {
       0% {
         opacity: 0;
@@ -739,6 +758,19 @@
         opacity: 1;
         transform: translateY(0);
         filter: blur(0);
+      }
+    }
+    
+    @keyframes menuStaggerOut {
+      0% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-15px);
+        filter: blur(6px);
       }
     }
     
