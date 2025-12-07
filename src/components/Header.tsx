@@ -107,7 +107,7 @@ const Header = () => {
               </button>
               <nav id="mobile-menu" className="mobile-menu-nav">
                 <ul className="nav-list">
-                  {navItems.map((item, index) => <li key={item.href}>
+                  {navItems.map((item, index) => <li key={item.href} className="menu-item-stagger" style={{ animationDelay: `${index * 80}ms` }}>
                       <Link to={item.href} onClick={() => setIsOpen(false)} className="mobile-menu-link">
                         {item.label}
                       </Link>
