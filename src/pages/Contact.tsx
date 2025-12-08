@@ -63,6 +63,7 @@ ${formData.goal}`;
   return (
     <div className="min-h-screen bg-background">
       <Header />
+      <div className="h-16 lg:h-[72px]" />
 
       <section className="section-spacing">
         <div className="container-narrow">

@@ -41,6 +41,8 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
+      {/* Spacer for fixed header */}
+      <div className="h-16 lg:h-[72px]" />
 
       {/* Hero Section */}
       <section className="section-spacing">
