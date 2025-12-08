@@ -8,7 +8,9 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 const Header = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
   const menuOverlayRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
 
   // Parallax scroll effect for menu items
   const handleMenuScroll = useCallback((e: Event) => {
@@ -23,6 +25,16 @@ const Header = () => {
     });
   }, []);
 
+  // Header parallax effect on page scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   useEffect(() => {
     const overlay = menuOverlayRef.current;
     if (isOpen && overlay) {
@@ -30,6 +42,12 @@ const Header = () => {
       return () => overlay.removeEventListener('scroll', handleMenuScroll);
     }
   }, [isOpen, handleMenuScroll]);
+
+  // Calculate parallax values
+  const parallaxY = Math.min(scrollY * 0.15, 20);
+  const parallaxOpacity = Math.max(1 - scrollY * 0.001, 0.85);
+  const parallaxBlur = Math.min(12 + scrollY * 0.02, 20);
+  const parallaxScale = Math.max(1 - scrollY * 0.0002, 0.98);
   const navItems = [{
     label: "Home",
     href: "/"
@@ -55,8 +73,21 @@ const Header = () => {
       logoImg.classList.add('logo-spin');
     }
   };
-  return <header className="site-header sticky top-0 z-50 backdrop-blur-[12px] border-b border-border bg-background">
-      <div className="container-standard relative">
+  return <header 
+    ref={headerRef}
+    className="site-header sticky top-0 z-50 border-b border-border bg-background"
+    style={{
+      backdropFilter: `blur(${parallaxBlur}px) saturate(180%)`,
+      WebkitBackdropFilter: `blur(${parallaxBlur}px) saturate(180%)`,
+    }}
+  >
+      <div 
+        className="container-standard relative transition-transform duration-100 ease-out"
+        style={{
+          transform: `translateY(${-parallaxY * 0.3}px) scale(${parallaxScale})`,
+          opacity: parallaxOpacity,
+        }}
+      >
         <div className="flex items-center justify-between h-[72px] lg:h-[72px] md:h-[64px] sm:h-[56px]">
           {/* Logo */}
           <Link to="/" className="flex-shrink-0 group" data-el="site-logo" role="img" aria-label="BitwellForge logo" onClick={handleLogoClick}>
