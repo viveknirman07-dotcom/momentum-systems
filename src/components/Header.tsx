@@ -92,9 +92,6 @@ const Header = () => {
             >
               <Mail className="w-5 h-5" />
             </a>
-            <Button asChild size="sm" className="ml-2">
-              <Link to="/contact">Get Started</Link>
-            </Button>
           </div>
 
           {/* Mobile Menu */}
@@ -143,17 +140,6 @@ const Header = () => {
                     </li>
                   ))}
                 </ul>
-                {/* Mobile CTA */}
-                <div className="mt-8 px-6">
-                  <Button 
-                    asChild 
-                    size="lg" 
-                    className="w-full bg-white text-black hover:bg-white/90"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <Link to="/contact">Get Started</Link>
-                  </Button>
-                </div>
               </nav>
               
               {/* Mobile Social Icons */}
