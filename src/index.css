@@ -480,7 +480,7 @@
     .menu-close {
       position: fixed !important;
       top: calc(env(safe-area-inset-top, 0) + 12px) !important;
-      right: 12px !important;
+      left: 24px !important;
       z-index: 9999 !important;
       width: 32px !important;
       height: 32px !important;
