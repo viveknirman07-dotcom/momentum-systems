@@ -1,7 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { Instagram, Linkedin, Menu, Mail } from "lucide-react";
 import { useState } from "react";
-import logo from "@/assets/bitwellforge-logo-new.png";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
@@ -18,33 +17,21 @@ const Header = () => {
     { label: "Contact", href: "/contact" },
   ];
 
-  const handleLogoClick = (e: React.MouseEvent) => {
-    const logoImg = e.currentTarget.querySelector('img') as HTMLElement;
-    if (logoImg) {
-      logoImg.classList.remove('logo-spin', 'logo-shake');
-      void logoImg.offsetWidth;
-      logoImg.classList.add('logo-spin');
-    }
-  };
 
   return (
     <header className="site-header h-16 lg:h-[72px]">
       <div className="container-standard h-full">
         <div className="flex items-center justify-between h-full">
-          {/* Logo */}
+          {/* Logo - BITWELL FORGE Wordmark */}
           <Link 
             to="/" 
-            className="flex-shrink-0 group" 
+            className="flex-shrink-0" 
             data-el="site-logo" 
-            role="img" 
-            aria-label="BitwellForge logo" 
-            onClick={handleLogoClick}
+            aria-label="BitwellForge home"
           >
-            <img 
-              src={logo} 
-              alt="BitwellForge" 
-              className="h-9 w-9 lg:h-10 lg:w-10 transition-transform duration-300" 
-            />
+            <span className="font-display text-lg lg:text-xl tracking-wider text-foreground uppercase">
+              <span className="font-medium">Bitwell</span> <span className="font-normal">Forge</span>
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
