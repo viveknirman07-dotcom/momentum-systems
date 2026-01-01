@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { Instagram, Linkedin, Mail } from "lucide-react";
-import bitwellForgeWordmark from "@/assets/bitwell-forge-wordmark-official.png";
 
 const Footer = () => {
   return <footer className="border-t border-[hsl(var(--line-hair))] py-20">
@@ -8,11 +7,9 @@ const Footer = () => {
         <div className="grid md:grid-cols-3 gap-12 md:gap-16">
           {/* Logo Column */}
           <div>
-            <img 
-              src={bitwellForgeWordmark} 
-              alt="Bitwell Forge" 
-              className="h-5 w-auto dark:invert-0 invert opacity-80"
-            />
+            <span className="font-display text-base tracking-wider text-foreground uppercase opacity-80">
+              <span className="font-medium">Bitwell</span> <span className="font-normal">Forge</span>
+            </span>
           </div>
 
           {/* Navigate Column */}
