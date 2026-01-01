@@ -14,6 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
+        display: ['Cormorant Garamond', 'Georgia', 'serif'],
         sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif'],
       },
       colors: {
@@ -55,7 +56,8 @@ export default {
           foreground: "hsl(var(--popover-foreground))",
         },
         brand: {
-          yellow: "hsl(var(--brand-yellow))",
+          navy: "hsl(var(--brand-navy))",
+          cream: "hsl(var(--brand-cream))",
         },
       },
       borderRadius: {

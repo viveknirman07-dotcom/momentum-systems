@@ -1,13 +1,15 @@
 import { Link } from "react-router-dom";
 import { Instagram, Linkedin, Mail } from "lucide-react";
-import logo from "@/assets/bitwellforge-logo-new.png";
+
 const Footer = () => {
   return <footer className="border-t border-[hsl(var(--line-hair))] py-20">
       <div className="container-standard">
         <div className="grid md:grid-cols-3 gap-12 md:gap-16">
           {/* Logo Column */}
           <div>
-            <img src={logo} alt="BitwellForge" className="h-10 w-10 mb-4 opacity-100" />
+            <span className="font-display text-base tracking-wider text-foreground uppercase opacity-80">
+              <span className="font-medium">Bitwell</span> <span className="font-normal">Forge</span>
+            </span>
           </div>
 
           {/* Navigate Column */}
