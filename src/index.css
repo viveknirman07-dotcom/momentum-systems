@@ -476,11 +476,12 @@
       transform: scale(0.98);
     }
     
-    /* Close button (X icon) - plain X with no container */
+    /* Close button (X icon) - positioned exactly where hamburger is */
     .menu-close {
       position: fixed !important;
       top: calc(env(safe-area-inset-top, 0) + 12px) !important;
-      left: 24px !important;
+      right: 12px !important;
+      left: auto !important;
       z-index: 9999 !important;
       width: 32px !important;
       height: 32px !important;
