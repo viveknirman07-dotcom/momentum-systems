@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
-import wordmarkLogo from "@/assets/bitwell-forge-wordmark-logo.png";
 
 const Header = () => {
   const location = useLocation();
@@ -30,11 +29,9 @@ const Header = () => {
             data-el="site-logo" 
             aria-label="BitwellForge home"
           >
-            <img 
-              src={wordmarkLogo} 
-              alt="Bitwell Forge" 
-              className="h-5 lg:h-6 w-auto dark:invert-0 invert"
-            />
+            <span className="font-display text-lg lg:text-xl tracking-[0.15em] text-foreground font-normal" style={{ fontVariant: 'small-caps' }}>
+              Bitwell Forge
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
