@@ -15,6 +15,7 @@ export default {
     extend: {
       fontFamily: {
         display: ['Cormorant Garamond', 'Georgia', 'serif'],
+        logo: ['Cinzel', 'Georgia', 'serif'],
         sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif'],
       },
       colors: {

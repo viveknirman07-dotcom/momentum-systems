@@ -29,8 +29,8 @@ const Header = () => {
             data-el="site-logo" 
             aria-label="BitwellForge home"
           >
-            <span className="font-display text-lg lg:text-xl tracking-[0.15em] text-foreground font-normal" style={{ fontVariant: 'small-caps' }}>
-              Bitwell Forge
+            <span className="font-logo text-lg lg:text-xl tracking-wide text-foreground font-normal">
+              BitwellForge
             </span>
           </Link>
 
