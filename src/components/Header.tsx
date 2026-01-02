@@ -29,8 +29,8 @@ const Header = () => {
             data-el="site-logo" 
             aria-label="BitwellForge home"
           >
-            <span className="font-display text-lg lg:text-xl tracking-[0.15em] text-foreground font-normal" style={{ fontVariant: 'small-caps' }}>
-              Bitwell Forge
+            <span className="text-lg lg:text-xl tracking-[0.1em] text-foreground font-normal" style={{ fontFamily: 'Cinzel, serif' }}>
+              BitwellForge
             </span>
           </Link>
 
@@ -81,22 +81,24 @@ const Header = () => {
             </a>
           </div>
 
-          {/* Mobile Menu */}
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild className="lg:hidden">
-              <button 
-                className="hamburger-btn min-w-[44px] min-h-[44px] flex items-center justify-center"
-                aria-label="Open menu"
-                aria-expanded={isOpen}
-                aria-controls="mobile-menu"
-              >
-                <div className={`hamburger-icon ${isOpen ? 'open' : ''}`}>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-              </button>
-            </SheetTrigger>
+          {/* Mobile/Tablet Right Section */}
+          <div className="flex lg:hidden items-center gap-3">
+            <ThemeToggle />
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild>
+                <button 
+                  className="hamburger-btn min-w-[44px] min-h-[44px] flex items-center justify-center"
+                  aria-label="Open menu"
+                  aria-expanded={isOpen}
+                  aria-controls="mobile-menu"
+                >
+                  <div className={`hamburger-icon ${isOpen ? 'open' : ''}`}>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </button>
+              </SheetTrigger>
             <SheetContent 
               side="top" 
               className="mobile-menu-overlay bg-black text-white border-none p-0 max-w-none w-full h-full inset-0 rounded-none"
@@ -158,7 +160,8 @@ const Header = () => {
                 </a>
               </div>
             </SheetContent>
-          </Sheet>
+            </Sheet>
+          </div>
         </div>
       </div>
     </header>
