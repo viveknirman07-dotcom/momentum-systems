@@ -3,7 +3,6 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -23,6 +22,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { ScrollSection } from "@/components/ScrollSection";
 
 const contactSchema = z.object({
   name: z
@@ -109,143 +109,149 @@ ${data.goal}`;
 
       <section className="section-spacing">
         <div className="container-narrow">
-          <h1 className="text-display mb-6">Contact</h1>
-          <p className="text-body-l text-muted-foreground">
-            Start a conversation. No sales pressure. Just clarity.
-          </p>
+          <ScrollSection>
+            <h1 className="text-display mb-6">Contact</h1>
+          </ScrollSection>
+          <ScrollSection delay={100}>
+            <p className="text-body-l text-muted-foreground">
+              Start a conversation. No sales pressure. Just clarity.
+            </p>
+          </ScrollSection>
         </div>
       </section>
 
       <section className="pb-24">
         <div className="container-narrow max-w-[640px]">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-body-m">Name *</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        maxLength={100}
-                        className="bg-[hsl(var(--card))] border-[hsl(var(--input))] text-foreground placeholder:text-muted-foreground focus-visible:ring-[hsl(var(--focus-ring))] rounded-lg h-12"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-body-m">Work email *</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="email"
-                        maxLength={255}
-                        className="bg-[hsl(var(--card))] border-[hsl(var(--input))] text-foreground placeholder:text-muted-foreground focus-visible:ring-[hsl(var(--focus-ring))] rounded-lg h-12"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="company"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-body-m">Company or practice</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        maxLength={200}
-                        className="bg-[hsl(var(--card))] border-[hsl(var(--input))] text-foreground placeholder:text-muted-foreground focus-visible:ring-[hsl(var(--focus-ring))] rounded-lg h-12"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="website"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-body-m">Website or LinkedIn</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="url"
-                        maxLength={500}
-                        className="bg-[hsl(var(--card))] border-[hsl(var(--input))] text-foreground placeholder:text-muted-foreground focus-visible:ring-[hsl(var(--focus-ring))] rounded-lg h-12"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="goal"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-body-m">What are you trying to achieve *</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        {...field}
-                        rows={5}
-                        maxLength={2000}
-                        className="bg-[hsl(var(--card))] border-[hsl(var(--input))] text-foreground placeholder:text-muted-foreground focus-visible:ring-[hsl(var(--focus-ring))] rounded-lg resize-none"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="budget"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-body-m">Budget range (optional)</FormLabel>
-                    <Select value={field.value} onValueChange={field.onChange}>
+          <ScrollSection delay={200}>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-body-m">Name *</FormLabel>
                       <FormControl>
-                        <SelectTrigger className="bg-[hsl(var(--card))] border-[hsl(var(--input))] text-foreground focus:ring-[hsl(var(--focus-ring))] rounded-lg h-12">
-                          <SelectValue placeholder="Select a range" />
-                        </SelectTrigger>
+                        <Input
+                          {...field}
+                          maxLength={100}
+                          className="bg-[hsl(var(--card))] border-[hsl(var(--input))] text-foreground placeholder:text-muted-foreground focus-visible:ring-[hsl(var(--focus-ring))] rounded-lg h-12"
+                        />
                       </FormControl>
-                      <SelectContent className="bg-popover border-[hsl(var(--line-hair))]">
-                        <SelectItem value="undecided">Undecided</SelectItem>
-                        <SelectItem value="2k-5k">$2k–$5k</SelectItem>
-                        <SelectItem value="5k-15k">$5k–$15k</SelectItem>
-                        <SelectItem value="15k-50k">$15k–$50k</SelectItem>
-                        <SelectItem value="50k+">$50k+</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <Button
-                type="submit"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-8 text-base font-medium rounded-lg transition-all duration-[120ms]"
-              >
-                Send
-              </Button>
-            </form>
-          </Form>
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-body-m">Work email *</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="email"
+                          maxLength={255}
+                          className="bg-[hsl(var(--card))] border-[hsl(var(--input))] text-foreground placeholder:text-muted-foreground focus-visible:ring-[hsl(var(--focus-ring))] rounded-lg h-12"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="company"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-body-m">Company or practice</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          maxLength={200}
+                          className="bg-[hsl(var(--card))] border-[hsl(var(--input))] text-foreground placeholder:text-muted-foreground focus-visible:ring-[hsl(var(--focus-ring))] rounded-lg h-12"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="website"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-body-m">Website or LinkedIn</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          type="url"
+                          maxLength={500}
+                          className="bg-[hsl(var(--card))] border-[hsl(var(--input))] text-foreground placeholder:text-muted-foreground focus-visible:ring-[hsl(var(--focus-ring))] rounded-lg h-12"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="goal"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-body-m">What are you trying to achieve *</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          {...field}
+                          rows={5}
+                          maxLength={2000}
+                          className="bg-[hsl(var(--card))] border-[hsl(var(--input))] text-foreground placeholder:text-muted-foreground focus-visible:ring-[hsl(var(--focus-ring))] rounded-lg resize-none"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="budget"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-body-m">Budget range (optional)</FormLabel>
+                      <Select value={field.value} onValueChange={field.onChange}>
+                        <FormControl>
+                          <SelectTrigger className="bg-[hsl(var(--card))] border-[hsl(var(--input))] text-foreground focus:ring-[hsl(var(--focus-ring))] rounded-lg h-12">
+                            <SelectValue placeholder="Select a range" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="bg-popover border-[hsl(var(--line-hair))]">
+                          <SelectItem value="undecided">Undecided</SelectItem>
+                          <SelectItem value="2k-5k">$2k–$5k</SelectItem>
+                          <SelectItem value="5k-15k">$5k–$15k</SelectItem>
+                          <SelectItem value="15k-50k">$15k–$50k</SelectItem>
+                          <SelectItem value="50k+">$50k+</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <Button
+                  type="submit"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-8 text-base font-medium rounded-lg transition-all duration-[120ms]"
+                >
+                  Send
+                </Button>
+              </form>
+            </Form>
+          </ScrollSection>
         </div>
       </section>
 

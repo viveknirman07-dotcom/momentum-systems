@@ -3,29 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-
-const ScrollSection = ({ 
-  children, 
-  className = "",
-  delay = 0 
-}: { 
-  children: React.ReactNode; 
-  className?: string;
-  delay?: number;
-}) => {
-  const { ref, isVisible } = useScrollAnimation(0.15);
-  
-  return (
-    <div 
-      ref={ref} 
-      className={`scroll-animate ${isVisible ? 'visible' : ''} ${className}`}
-      style={{ transitionDelay: `${delay}ms` }}
-    >
-      {children}
-    </div>
-  );
-};
+import { ScrollSection } from "@/components/ScrollSection";
 
 const Home = () => {
   const pillars = [{

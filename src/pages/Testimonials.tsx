@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { ScrollSection } from "@/components/ScrollSection";
 
 const Testimonials = () => {
   const testimonials = [
@@ -42,10 +43,14 @@ const Testimonials = () => {
 
       <section className="section-spacing">
         <div className="container-narrow">
-          <h1 className="text-display mb-6">Testimonials</h1>
-          <p className="text-body-l text-muted-foreground">
-            What clients say about working with BitwellForge.
-          </p>
+          <ScrollSection>
+            <h1 className="text-display mb-6">Testimonials</h1>
+          </ScrollSection>
+          <ScrollSection delay={100}>
+            <p className="text-body-l text-muted-foreground">
+              What clients say about working with BitwellForge.
+            </p>
+          </ScrollSection>
         </div>
       </section>
 
@@ -53,13 +58,15 @@ const Testimonials = () => {
         <div className="container-standard">
           <div className="grid md:grid-cols-2 gap-8">
             {testimonials.map((testimonial, index) => (
-              <div key={index} className="border border-[hsl(var(--line-hair))] rounded-xl p-8 bg-[hsl(var(--card))] hover-lift">
-                <p className="text-body-l mb-6 leading-relaxed">"{testimonial.quote}"</p>
-                <div>
-                  <p className="text-caption font-normal">{testimonial.author}</p>
-                  <p className="text-micro text-muted-foreground">{testimonial.role}</p>
+              <ScrollSection key={index} delay={index * 100}>
+                <div className="border border-[hsl(var(--line-hair))] rounded-xl p-8 bg-[hsl(var(--card))] hover-lift h-full">
+                  <p className="text-body-l mb-6 leading-relaxed">"{testimonial.quote}"</p>
+                  <div>
+                    <p className="text-caption font-normal">{testimonial.author}</p>
+                    <p className="text-micro text-muted-foreground">{testimonial.role}</p>
+                  </div>
                 </div>
-              </div>
+              </ScrollSection>
             ))}
           </div>
         </div>

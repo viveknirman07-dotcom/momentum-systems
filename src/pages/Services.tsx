@@ -2,6 +2,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Lightbulb, TrendingUp, Users, Target, Linkedin as LinkedinIcon, Search, Share2, GraduationCap, Award } from "lucide-react";
+import { ScrollSection } from "@/components/ScrollSection";
+
 const Services = () => {
   const services = [{
     name: "Business Consulting and Growth Strategy",
@@ -49,6 +51,7 @@ const Services = () => {
     bullets: ["Narrative and messaging", "Media targets and outreach", "Founder's brand system", "Asset kit and guidelines"],
     icon: Award
   }];
+  
   const faq = [{
     q: "Do you work with early stage teams?",
     a: "Yes, if there is a real offer and a responsible owner. We prefer focused operators over vanity metrics."
@@ -56,62 +59,80 @@ const Services = () => {
     q: "How do engagements start?",
     a: "We begin with a short paid clarity call, a focused session to understand your growth goals."
   }];
-  return <div className="min-h-screen bg-background">
+  
+  return (
+    <div className="min-h-screen bg-background">
       <Header />
       <div className="h-16 lg:h-[72px]" />
 
       <section className="section-spacing">
         <div className="container-narrow">
-          <h1 className="text-display mb-6">Services</h1>
-          <p className="text-h3 text-muted-foreground font-normal">
-            Systems that reduce randomness and increase repeatability.
-          </p>
+          <ScrollSection>
+            <h1 className="text-display mb-6">Services</h1>
+          </ScrollSection>
+          <ScrollSection delay={100}>
+            <p className="text-h3 text-muted-foreground font-normal">
+              Systems that reduce randomness and increase repeatability.
+            </p>
+          </ScrollSection>
         </div>
       </section>
 
       <section id="services" className="pb-24">
         <div className="container-standard">
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3" style={{
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))'
-        }}>
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))'
+          }}>
             {services.map((service, index) => {
-            const Icon = service.icon;
-            return <div key={index} className="service-card border border-[hsl(var(--line-hair))] rounded-xl p-6 bg-[hsl(var(--card))] transition-all duration-300" style={{
-              animationDelay: `${index * 50}ms`
-            }}>
-                  <div className="icon mb-4 transition-transform duration-400">
-                    <Icon className="w-8 h-8 text-foreground" strokeWidth={1.5} />
+              const Icon = service.icon;
+              return (
+                <ScrollSection key={index} delay={index * 50}>
+                  <div className="service-card border border-[hsl(var(--line-hair))] rounded-xl p-6 bg-[hsl(var(--card))] transition-all duration-300 h-full">
+                    <div className="icon mb-4 transition-transform duration-400">
+                      <Icon className="w-8 h-8 text-foreground" strokeWidth={1.5} />
+                    </div>
+                    <h3 className="text-h4 mb-3">{service.name}</h3>
+                    <p className="text-body-m text-muted-foreground mb-4">{service.blurb}</p>
+                    <ul className="space-y-2">
+                      {service.bullets.map((bullet, bulletIndex) => (
+                        <li key={bulletIndex} className="text-caption text-muted-foreground">
+                          {bullet}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <h3 className="text-h4 mb-3">{service.name}</h3>
-                  <p className="text-body-m text-muted-foreground mb-4">{service.blurb}</p>
-                  <ul className="space-y-2">
-                    {service.bullets.map((bullet, bulletIndex) => <li key={bulletIndex} className="text-caption text-muted-foreground">
-                        {bullet}
-                      </li>)}
-                  </ul>
-                </div>;
-          })}
+                </ScrollSection>
+              );
+            })}
           </div>
         </div>
       </section>
 
       <section className="section-spacing rounded-md">
         <div className="container-narrow">
-          <h2 className="text-h2 mb-12">Frequently asked</h2>
-          <Accordion type="single" collapsible className="w-full">
-            {faq.map((item, index) => <AccordionItem key={index} value={`item-${index}`} className="border-none">
-                <AccordionTrigger className="text-h4 text-left hover:no-underline">
-                  {item.q}
-                </AccordionTrigger>
-                <AccordionContent className="text-body-l text-muted-foreground">
-                  {item.a}
-                </AccordionContent>
-              </AccordionItem>)}
-          </Accordion>
+          <ScrollSection>
+            <h2 className="text-h2 mb-12">Frequently asked</h2>
+          </ScrollSection>
+          <ScrollSection delay={100}>
+            <Accordion type="single" collapsible className="w-full">
+              {faq.map((item, index) => (
+                <AccordionItem key={index} value={`item-${index}`} className="border-none">
+                  <AccordionTrigger className="text-h4 text-left hover:no-underline">
+                    {item.q}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-body-l text-muted-foreground">
+                    {item.a}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </ScrollSection>
         </div>
       </section>
 
       <Footer />
-    </div>;
+    </div>
+  );
 };
+
 export default Services;
