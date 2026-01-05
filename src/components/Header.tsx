@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
-import { Instagram, Linkedin, Menu, Mail, Twitter } from "lucide-react";
+import { Instagram, Linkedin, Menu, Mail } from "lucide-react";
+import XIcon from "@/components/icons/XIcon";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -79,7 +80,7 @@ const Header = () => {
               className="text-muted-foreground hover:text-foreground transition-colors duration-150" 
               aria-label="X (Twitter)"
             >
-              <Twitter className="w-5 h-5" />
+              <XIcon className="w-5 h-5" />
             </a>
             <a 
               href="mailto:v@bitwellforge.com?subject=Inquiry%20from%20BitwellForge%20Site" 
@@ -165,7 +166,7 @@ const Header = () => {
                   className="text-white/70 hover:text-white transition-colors duration-200" 
                   aria-label="X (Twitter)"
                 >
-                  <Twitter className="w-6 h-6" />
+                  <XIcon className="w-6 h-6" />
                 </a>
                 <a 
                   href="mailto:v@bitwellforge.com?subject=Inquiry%20from%20BitwellForge%20Site" 
