@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { Instagram, Linkedin, Mail, Twitter } from "lucide-react";
+import { Instagram, Linkedin, Mail } from "lucide-react";
+import XIcon from "@/components/icons/XIcon";
 
 const Footer = () => {
   return <footer className="border-t border-[hsl(var(--line-hair))] py-20">
@@ -46,7 +47,7 @@ const Footer = () => {
                 <Linkedin className="w-5 h-5" />
               </a>
               <a href="https://x.com/bitwellforge?s=21" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors duration-[120ms]" aria-label="X (Twitter)">
-                <Twitter className="w-5 h-5" />
+                <XIcon className="w-5 h-5" />
               </a>
               <a href="mailto:v@bitwellforge.com?subject=Inquiry%20from%20BitwellForge%20Site" className="text-muted-foreground hover:text-foreground transition-colors duration-[120ms]" aria-label="Email">
                 <Mail className="w-5 h-5" />
