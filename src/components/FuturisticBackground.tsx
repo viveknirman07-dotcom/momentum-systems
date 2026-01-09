@@ -90,26 +90,30 @@ export const FuturisticBackground = () => {
       className="fixed inset-0 pointer-events-none overflow-hidden z-0"
       aria-hidden="true"
     >
-      {/* Parallax gradient layers */}
+      {/* Parallax gradient layers - adjusted for light theme */}
       <div
-        className="absolute inset-0 opacity-30"
+        className="absolute inset-0 opacity-40 dark:opacity-30"
         style={{
-          background: `radial-gradient(ellipse 80% 50% at ${50 + (mousePos.x / window.innerWidth - 0.5) * 10}% ${30 + (mousePos.y / window.innerHeight - 0.5) * 10}%, hsl(var(--primary) / 0.08), transparent)`,
+          background: `radial-gradient(ellipse 80% 50% at ${50 + (mousePos.x / window.innerWidth - 0.5) * 10}% ${30 + (mousePos.y / window.innerHeight - 0.5) * 10}%, hsl(var(--primary) / 0.12), transparent)`,
           transform: `translateY(${scrollY * 0.1}px)`,
         }}
       />
       <div
-        className="absolute inset-0 opacity-20"
+        className="absolute inset-0 opacity-30 dark:opacity-20"
         style={{
-          background: `radial-gradient(circle at ${70 + (mousePos.x / window.innerWidth - 0.5) * 15}% ${60 + (mousePos.y / window.innerHeight - 0.5) * 15}%, hsl(var(--primary) / 0.06), transparent 50%)`,
+          background: `radial-gradient(circle at ${70 + (mousePos.x / window.innerWidth - 0.5) * 15}% ${60 + (mousePos.y / window.innerHeight - 0.5) * 15}%, hsl(var(--primary) / 0.1), transparent 50%)`,
           transform: `translateY(${scrollY * 0.05}px)`,
         }}
       />
 
-      {/* Floating geometric particles */}
+      {/* Floating geometric particles - darker for light theme */}
       <svg className="absolute inset-0 w-full h-full">
         <defs>
-          <linearGradient id="particleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient id="particleGradientLight" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.5" />
+            <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.2" />
+          </linearGradient>
+          <linearGradient id="particleGradientDark" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity="0.4" />
             <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0.1" />
           </linearGradient>
@@ -121,10 +125,11 @@ export const FuturisticBackground = () => {
           return (
             <g
               key={p.id}
+              className="particle-shape"
               style={{
                 transform: `translate(${p.x}%, ${yPos}%) rotate(${p.rotation}deg)`,
                 transformOrigin: "center",
-                opacity: p.opacity,
+                opacity: p.opacity * 1.5,
               }}
             >
               {p.shape === "circle" ? (
@@ -133,15 +138,15 @@ export const FuturisticBackground = () => {
                   cy={p.size / 2}
                   r={p.size / 2}
                   fill="none"
-                  stroke="url(#particleGradient)"
-                  strokeWidth="1"
+                  className="stroke-primary/30 dark:stroke-primary/20"
+                  strokeWidth="1.5"
                 />
               ) : (
                 <path
                   d={getShapePath(p.shape)}
                   fill="none"
-                  stroke="url(#particleGradient)"
-                  strokeWidth="1"
+                  className="stroke-primary/30 dark:stroke-primary/20"
+                  strokeWidth="1.5"
                   style={{
                     transform: `scale(${p.size / 24})`,
                     transformOrigin: "center",
@@ -162,8 +167,8 @@ export const FuturisticBackground = () => {
         }}
       />
 
-      {/* Grid overlay */}
-      <div className="absolute inset-0 futuristic-grid opacity-[0.03]" />
+      {/* Grid overlay - darker for light theme */}
+      <div className="absolute inset-0 futuristic-grid opacity-[0.06] dark:opacity-[0.03]" />
     </div>
   );
 };
