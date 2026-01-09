@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { PageLoader } from "@/components/PageLoader";
 import { CookieConsent } from "@/components/CookieConsent";
+import { FuturisticBackground } from "@/components/FuturisticBackground";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -20,6 +21,8 @@ const App = () => (
       <Toaster />
       <Sonner />
       <CookieConsent />
+      <FuturisticBackground />
+      <div className="scan-line" />
       <BrowserRouter>
         <ScrollToTop />
         <PageLoader />
