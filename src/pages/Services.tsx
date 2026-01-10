@@ -1,11 +1,24 @@
+import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Lightbulb, TrendingUp, Users, Target, Linkedin as LinkedinIcon, Search, Share2, GraduationCap, Award } from "lucide-react";
+import { Lightbulb, TrendingUp, Users, Target, Linkedin as LinkedinIcon, Search, Share2, GraduationCap, Award, ChevronRight } from "lucide-react";
 import { ScrollSection } from "@/components/ScrollSection";
+import ServiceSelectionPanel from "@/components/ServiceSelectionPanel";
+import { cn } from "@/lib/utils";
+
+interface ServiceData {
+  name: string;
+  blurb: string;
+  bullets: string[];
+  icon: React.ElementType;
+}
 
 const Services = () => {
-  const services = [{
+  const [selectedService, setSelectedService] = useState<ServiceData | null>(null);
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+
+  const services: ServiceData[] = [{
     name: "Business Consulting and Growth Strategy",
     blurb: "Custom-built blueprints for scale that align market, model and message.",
     bullets: ["Growth roadmaps", "Offer and pricing design", "Go-to-market architecture", "Measurement planning"],
@@ -59,6 +72,19 @@ const Services = () => {
     q: "How do engagements start?",
     a: "We begin with a short paid clarity call, a focused session to understand your growth goals."
   }];
+
+  const handleServiceClick = (service: ServiceData) => {
+    setSelectedService(service);
+    setIsPanelOpen(true);
+  };
+
+  const handlePanelClose = () => {
+    setIsPanelOpen(false);
+    // Reset selected service after animation completes
+    setTimeout(() => {
+      setSelectedService(null);
+    }, 500);
+  };
   
   return (
     <div className="min-h-screen bg-background">
@@ -87,9 +113,19 @@ const Services = () => {
               const Icon = service.icon;
               return (
                 <ScrollSection key={index} delay={index * 50}>
-                  <div className="service-card border border-[hsl(var(--line-hair))] rounded-xl p-6 bg-[hsl(var(--card))] transition-all duration-300 h-full">
-                    <div className="icon mb-4 transition-transform duration-400">
-                      <Icon className="w-8 h-8 text-foreground" strokeWidth={1.5} />
+                  <button
+                    onClick={() => handleServiceClick(service)}
+                    className={cn(
+                      "service-card border border-[hsl(var(--line-hair))] rounded-xl p-6 bg-[hsl(var(--card))] transition-all duration-300 h-full w-full text-left",
+                      "group cursor-pointer",
+                      "hover:border-foreground/20"
+                    )}
+                  >
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="icon transition-transform duration-400">
+                        <Icon className="w-8 h-8 text-foreground" strokeWidth={1.5} />
+                      </div>
+                      <ChevronRight className="w-5 h-5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform group-hover:translate-x-1" />
                     </div>
                     <h3 className="text-h4 mb-3">{service.name}</h3>
                     <p className="text-body-m text-muted-foreground mb-4">{service.blurb}</p>
@@ -100,7 +136,7 @@ const Services = () => {
                         </li>
                       ))}
                     </ul>
-                  </div>
+                  </button>
                 </ScrollSection>
               );
             })}
@@ -131,6 +167,13 @@ const Services = () => {
       </section>
 
       <Footer />
+
+      {/* Service Selection Panel */}
+      <ServiceSelectionPanel
+        isOpen={isPanelOpen}
+        onClose={handlePanelClose}
+        service={selectedService}
+      />
     </div>
   );
 };

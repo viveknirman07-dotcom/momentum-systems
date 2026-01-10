@@ -6,6 +6,7 @@ import { PageLoader } from "@/components/PageLoader";
 import { CookieConsent } from "@/components/CookieConsent";
 import { FuturisticBackground } from "@/components/FuturisticBackground";
 import { AnimatedRoutes } from "@/components/AnimatedRoutes";
+import { ServiceSelectionProvider } from "@/contexts/ServiceSelectionContext";
 
 import { BrowserRouter } from "react-router-dom";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -13,16 +14,18 @@ import ScrollToTop from "@/components/ScrollToTop";
 const App = () => (
   <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <CookieConsent />
-      <FuturisticBackground />
-      <div className="scan-line" />
-      <BrowserRouter>
-        <ScrollToTop />
-        <PageLoader />
-        <AnimatedRoutes />
-      </BrowserRouter>
+      <ServiceSelectionProvider>
+        <Toaster />
+        <Sonner />
+        <CookieConsent />
+        <FuturisticBackground />
+        <div className="scan-line" />
+        <BrowserRouter>
+          <ScrollToTop />
+          <PageLoader />
+          <AnimatedRoutes />
+        </BrowserRouter>
+      </ServiceSelectionProvider>
     </TooltipProvider>
   </ThemeProvider>
 );
