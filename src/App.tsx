@@ -6,7 +6,6 @@ import { PageLoader } from "@/components/PageLoader";
 import { CookieConsent } from "@/components/CookieConsent";
 import { FuturisticBackground } from "@/components/FuturisticBackground";
 import { AnimatedRoutes } from "@/components/AnimatedRoutes";
-import { SmoothScroll } from "@/components/SmoothScroll";
 
 import { BrowserRouter } from "react-router-dom";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -18,12 +17,11 @@ const App = () => (
       <Sonner />
       <CookieConsent />
       <FuturisticBackground />
+      <div className="scan-line" />
       <BrowserRouter>
-        <SmoothScroll>
-          <ScrollToTop />
-          <PageLoader />
-          <AnimatedRoutes />
-        </SmoothScroll>
+        <ScrollToTop />
+        <PageLoader />
+        <AnimatedRoutes />
       </BrowserRouter>
     </TooltipProvider>
   </ThemeProvider>

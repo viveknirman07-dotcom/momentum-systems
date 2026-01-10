@@ -39,11 +39,11 @@ const Home = () => {
       {/* Hero Section */}
       <section className="section-spacing">
         <div className="container-narrow">
-        <ScrollSection>
-          <h1 className="text-display mb-6 text-left">
-            We engineer momentum systems that compound attention into meaningful outcomes.
-          </h1>
-        </ScrollSection>
+          <ScrollSection>
+            <h1 className="text-display mb-6 text-left neon-glow">
+              We engineer momentum systems that compound attention into meaningful outcomes.
+            </h1>
+          </ScrollSection>
           <ScrollSection delay={100}>
             <p className="text-body-l text-muted-foreground mb-12 max-w-3xl">
               Built for professionals, entrepreneurs and modern brands who operate with intention.
@@ -88,18 +88,18 @@ const Home = () => {
           <ScrollSection>
             <h2 className="text-h2 mb-16">Selected testimonials</h2>
           </ScrollSection>
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
-          {testimonials.map((testimonial, index) => (
-            <ScrollSection key={index} delay={index * 80}>
-              <div className="border border-[hsl(var(--line-hair))] rounded-xl p-6 bg-[hsl(var(--card))] card-hover h-full">
-                <p className="text-body-m mb-6">"{testimonial.quote}"</p>
-                <div>
-                  <p className="text-caption font-normal">{testimonial.author}</p>
-                  <p className="text-micro text-muted-foreground">{testimonial.role}</p>
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            {testimonials.map((testimonial, index) => (
+              <ScrollSection key={index} delay={index * 100}>
+                <div className="border border-[hsl(var(--line-hair))] rounded-xl p-6 bg-[hsl(var(--card))] card-glow h-full">
+                  <p className="text-body-m mb-6">"{testimonial.quote}"</p>
+                  <div>
+                    <p className="text-caption font-normal">{testimonial.author}</p>
+                    <p className="text-micro text-muted-foreground">{testimonial.role}</p>
+                  </div>
                 </div>
-              </div>
-            </ScrollSection>
-          ))}
+              </ScrollSection>
+            ))}
           </div>
           <ScrollSection delay={300}>
             <Button asChild variant="ghost" className="hover-underline text-base px-0 h-auto font-normal">

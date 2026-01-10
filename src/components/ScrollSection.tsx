@@ -13,16 +13,11 @@ export const ScrollSection = ({
 }: ScrollSectionProps) => {
   const { ref, isVisible } = useScrollAnimation(0.15);
   
-  // Stagger delay: 60-120ms range as per spec
-  const staggerDelay = Math.min(delay, 360); // Cap at reasonable max
-  
   return (
     <div 
       ref={ref} 
-      className={`scroll-reveal ${isVisible ? 'is-visible' : ''} ${className}`}
-      style={{ 
-        transitionDelay: `${staggerDelay}ms`,
-      }}
+      className={`scroll-animate ${isVisible ? 'visible' : ''} ${className}`}
+      style={{ transitionDelay: `${delay}ms` }}
     >
       {children}
     </div>
