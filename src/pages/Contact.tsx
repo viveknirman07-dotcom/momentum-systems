@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { ScrollSection } from "@/components/ScrollSection";
+import { useServiceSelection } from "@/contexts/ServiceSelectionContext";
+import { motion } from "framer-motion";
 
 const contactSchema = z.object({
   name: z
@@ -64,6 +67,16 @@ type ContactFormData = z.infer<typeof contactSchema>;
 
 const Contact = () => {
   const { toast } = useToast();
+  const { selection, clearSelection } = useServiceSelection();
+
+  // Generate prefilled goal text based on selection
+  const getPrefilledGoal = () => {
+    if (!selection) return "";
+    if (selection.isOther) {
+      return `Custom requirement related to ${selection.serviceName}\n\n`;
+    }
+    return `${selection.serviceName} — ${selection.selectedOption}\n\n`;
+  };
 
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
@@ -72,18 +85,40 @@ const Contact = () => {
       email: "",
       company: "",
       website: "",
-      goal: "",
+      goal: getPrefilledGoal(),
       budget: "",
     },
   });
 
+  // Update goal field when selection changes
+  useEffect(() => {
+    if (selection) {
+      const currentGoal = form.getValues("goal");
+      const prefilledGoal = getPrefilledGoal();
+      // Only prefill if the goal is empty or hasn't been modified from a previous prefill
+      if (!currentGoal || currentGoal === "" || currentGoal.startsWith(selection.serviceName) || currentGoal.startsWith("Custom requirement related to")) {
+        form.setValue("goal", prefilledGoal);
+      }
+    }
+  }, [selection]);
+
   const onSubmit = (data: ContactFormData) => {
-    const subject = `Contact from ${data.name}`;
+    // Build email subject with service context
+    let subject = `Contact from ${data.name}`;
+    if (selection) {
+      if (selection.isOther) {
+        subject = `New Inquiry — ${selection.serviceName} | Custom Request`;
+      } else {
+        subject = `New Inquiry — ${selection.serviceName} | ${selection.selectedOption}`;
+      }
+    }
+
     const body = `Name: ${data.name}
 Email: ${data.email}
 Company: ${data.company || "Not provided"}
 Website: ${data.website || "Not provided"}
 Budget: ${data.budget || "Undecided"}
+${selection ? `\nService: ${selection.serviceName}\nFocus: ${selection.isOther ? "Custom requirement" : selection.selectedOption}` : ""}
 
 Goal:
 ${data.goal}`;
@@ -100,6 +135,7 @@ ${data.goal}`;
     });
 
     form.reset();
+    clearSelection();
   };
 
   return (
@@ -117,6 +153,33 @@ ${data.goal}`;
               Start a conversation. No sales pressure. Just clarity.
             </p>
           </ScrollSection>
+
+          {/* Service context badge */}
+          {selection && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
+              className="mt-6"
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent border border-border">
+                <span className="text-caption text-muted-foreground">Inquiry about:</span>
+                <span className="text-caption font-medium text-foreground">
+                  {selection.serviceName}
+                  {!selection.isOther && ` — ${selection.selectedOption}`}
+                </span>
+                <button
+                  onClick={clearSelection}
+                  className="ml-1 p-1 rounded-full hover:bg-muted transition-colors"
+                  aria-label="Clear selection"
+                >
+                  <svg className="w-3 h-3 text-muted-foreground" viewBox="0 0 12 12" fill="none">
+                    <path d="M9 3L3 9M3 3l6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
+                </button>
+              </div>
+            </motion.div>
+          )}
         </div>
       </section>
 
