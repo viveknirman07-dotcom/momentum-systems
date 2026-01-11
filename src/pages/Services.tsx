@@ -1,10 +1,13 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Lightbulb, TrendingUp, Users, Target, Linkedin as LinkedinIcon, Search, Share2, GraduationCap, Award, LucideIcon } from "lucide-react";
 import { ScrollSection } from "@/components/ScrollSection";
 import ServiceOptionsPanel from "@/components/ServiceOptionsPanel";
+import { Button } from "@/components/ui/button";
+import { useSelectedServices } from "@/context/SelectedServicesContext";
 
 interface ServiceOption {
   id: string;
@@ -20,6 +23,8 @@ interface Service {
 }
 
 const Services = () => {
+  const navigate = useNavigate();
+  const { setSelectedServices } = useSelectedServices();
   const [activeService, setActiveService] = useState<number | null>(null);
   const [selectedOptions, setSelectedOptions] = useState<Record<number, string[]>>({});
 
@@ -174,6 +179,40 @@ const Services = () => {
     setActiveService(null);
   }, []);
 
+  // Check if any options are selected
+  const hasSelections = useMemo(() => {
+    return Object.values(selectedOptions).some((options) => options.length > 0);
+  }, [selectedOptions]);
+
+  // Build selected services array for context
+  const getSelectedServicesData = useCallback(() => {
+    const result: { serviceName: string; options: string[] }[] = [];
+    
+    Object.entries(selectedOptions).forEach(([indexStr, optionIds]) => {
+      const index = parseInt(indexStr);
+      const service = services[index];
+      if (service && optionIds.length > 0) {
+        const optionLabels = optionIds.map((id) => {
+          if (id === "other") return "Other (custom requirement)";
+          const option = service.options.find((opt) => opt.id === id);
+          return option ? option.label : id;
+        });
+        result.push({
+          serviceName: service.name,
+          options: optionLabels,
+        });
+      }
+    });
+    
+    return result;
+  }, [selectedOptions, services]);
+
+  const handleGetStarted = useCallback(() => {
+    const selectedServicesData = getSelectedServicesData();
+    setSelectedServices(selectedServicesData);
+    navigate("/contact");
+  }, [getSelectedServicesData, setSelectedServices, navigate]);
+
   return (
     <div className={`min-h-screen bg-background ${activeService !== null ? "services-active" : ""}`}>
       <Header />
@@ -241,6 +280,18 @@ const Services = () => {
               );
             })}
           </div>
+
+          {/* Get Started Button - appears when options are selected */}
+          {hasSelections && (
+            <div className="mt-12 flex justify-center">
+              <Button
+                onClick={handleGetStarted}
+                className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-8 text-base font-medium rounded-lg transition-all duration-[120ms]"
+              >
+                Get Started
+              </Button>
+            </div>
+          )}
         </div>
       </section>
 

@@ -1,3 +1,4 @@
+import { useEffect, useMemo } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { ScrollSection } from "@/components/ScrollSection";
+import { useSelectedServices } from "@/context/SelectedServicesContext";
 
 const contactSchema = z.object({
   name: z
@@ -64,6 +66,19 @@ type ContactFormData = z.infer<typeof contactSchema>;
 
 const Contact = () => {
   const { toast } = useToast();
+  const { selectedServices, clearSelectedServices } = useSelectedServices();
+
+  // Build pre-filled goal text from selected services
+  const prefilledGoal = useMemo(() => {
+    if (selectedServices.length === 0) return "";
+    
+    const lines = selectedServices.map((service) => {
+      const optionsList = service.options.join(", ");
+      return `${service.serviceName}: ${optionsList}`;
+    });
+    
+    return `I'm interested in:\n\n${lines.join("\n\n")}`;
+  }, [selectedServices]);
 
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
@@ -72,10 +87,17 @@ const Contact = () => {
       email: "",
       company: "",
       website: "",
-      goal: "",
+      goal: prefilledGoal,
       budget: "",
     },
   });
+
+  // Update goal field when selectedServices changes
+  useEffect(() => {
+    if (prefilledGoal) {
+      form.setValue("goal", prefilledGoal);
+    }
+  }, [prefilledGoal, form]);
 
   const onSubmit = (data: ContactFormData) => {
     const subject = `Contact from ${data.name}`;
@@ -100,6 +122,7 @@ ${data.goal}`;
     });
 
     form.reset();
+    clearSelectedServices();
   };
 
   return (
