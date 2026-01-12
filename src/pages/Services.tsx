@@ -1,57 +1,130 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Lightbulb, TrendingUp, Users, Target, Linkedin as LinkedinIcon, Search, Share2, GraduationCap, Award } from "lucide-react";
+import { Lightbulb, TrendingUp, Users, Target, Linkedin as LinkedinIcon, Search, Share2, GraduationCap, Award, Check, LucideIcon } from "lucide-react";
 import { ScrollSection } from "@/components/ScrollSection";
+import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelectedService } from "@/contexts/SelectedServiceContext";
+
+interface ServiceOption {
+  label: string;
+}
+
+interface Service {
+  name: string;
+  blurb: string;
+  options: ServiceOption[];
+  icon: LucideIcon;
+}
 
 const Services = () => {
-  const services = [{
+  const navigate = useNavigate();
+  const { setSelectedService } = useSelectedService();
+  const [activeServiceIndex, setActiveServiceIndex] = useState<number | null>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+
+  const services: Service[] = [{
     name: "Business Consulting and Growth Strategy",
     blurb: "Custom-built blueprints for scale that align market, model and message.",
-    bullets: ["Growth roadmaps", "Offer and pricing design", "Go-to-market architecture", "Measurement planning"],
+    options: [
+      { label: "Growth roadmaps" },
+      { label: "Offer and pricing design" },
+      { label: "Go-to-market architecture" },
+      { label: "Measurement planning" },
+      { label: "Other" }
+    ],
     icon: Lightbulb
   }, {
     name: "High-Ticket Sales Consulting",
     blurb: "Systems that consistently attract and convert premium clients without spray-and-pray.",
-    bullets: ["Pipeline design", "Sales messaging and scripts", "Qualification frameworks", "Enablement and review"],
+    options: [
+      { label: "Pipeline design" },
+      { label: "Sales messaging and scripts" },
+      { label: "Qualification frameworks" },
+      { label: "Enablement and review" },
+      { label: "Other" }
+    ],
     icon: TrendingUp
   }, {
     name: "Performance Marketing",
     blurb: "Revenue-maximizing campaigns with clear attribution and creative that earns attention.",
-    bullets: ["Paid media strategy", "Creative direction", "A/B testing and experimentation", "Attribution and reporting"],
+    options: [
+      { label: "Paid media strategy" },
+      { label: "Creative direction" },
+      { label: "A/B testing and experimentation" },
+      { label: "Attribution and reporting" },
+      { label: "Other" }
+    ],
     icon: Target
   }, {
     name: "B2B Lead Generation",
     blurb: "Targeted funnels that reach real decision-makers with respect and precision.",
-    bullets: ["ICP and account lists", "Offer hooks and angles", "Landing experiences", "Calendaring and follow-up"],
+    options: [
+      { label: "ICP and account lists" },
+      { label: "Offer hooks and angles" },
+      { label: "Landing experiences" },
+      { label: "Calendaring and follow-up" },
+      { label: "Other" }
+    ],
     icon: Users
   }, {
     name: "LinkedIn Outreach and Positioning",
     blurb: "Authority-led strategies that convert conversations into clients.",
-    bullets: ["Profile architecture", "Content and POV system", "Warm and cold outreach", "Relationship pipelines"],
+    options: [
+      { label: "Profile architecture" },
+      { label: "Content and POV system" },
+      { label: "Warm and cold outreach" },
+      { label: "Relationship pipelines" },
+      { label: "Other" }
+    ],
     icon: LinkedinIcon
   }, {
     name: "SEO and Digital Visibility",
     blurb: "Frameworks to dominate organic search and expand discoverability.",
-    bullets: ["Technical SEO", "Content architecture", "On-page and internal links", "Search analytics"],
+    options: [
+      { label: "Technical SEO" },
+      { label: "Content architecture" },
+      { label: "On-page and internal links" },
+      { label: "Search analytics" },
+      { label: "Other" }
+    ],
     icon: Search
   }, {
     name: "Social Media Growth",
     blurb: "Data-backed methods to amplify influence and brand reach without noise.",
-    bullets: ["Channel strategy", "Content system", "Creative templates", "Insights and cadence"],
+    options: [
+      { label: "Channel strategy" },
+      { label: "Content system" },
+      { label: "Creative templates" },
+      { label: "Insights and cadence" },
+      { label: "Other" }
+    ],
     icon: Share2
   }, {
     name: "Digital Product and Course Consulting",
     blurb: "Guide experts to package knowledge and monetize at scale with clean learning flows.",
-    bullets: ["Curriculum design", "Platform selection", "Pricing and funnels", "Launch and iteration"],
+    options: [
+      { label: "Curriculum design" },
+      { label: "Platform selection" },
+      { label: "Pricing and funnels" },
+      { label: "Launch and iteration" },
+      { label: "Other" }
+    ],
     icon: GraduationCap
   }, {
     name: "PR and Branding Solutions",
     blurb: "Establish credibility, thought leadership and market authority with intent.",
-    bullets: ["Narrative and messaging", "Media targets and outreach", "Founder's brand system", "Asset kit and guidelines"],
+    options: [
+      { label: "Narrative and messaging" },
+      { label: "Media targets and outreach" },
+      { label: "Founder's brand system" },
+      { label: "Asset kit and guidelines" },
+      { label: "Other" }
+    ],
     icon: Award
   }];
-  
+
   const faq = [{
     q: "Do you work with early stage teams?",
     a: "Yes, if there is a real offer and a responsible owner. We prefer focused operators over vanity metrics."
@@ -59,7 +132,47 @@ const Services = () => {
     q: "How do engagements start?",
     a: "We begin with a short paid clarity call, a focused session to understand your growth goals."
   }];
-  
+
+  const handleServiceClick = (index: number) => {
+    setActiveServiceIndex(index);
+  };
+
+  const handleOptionSelect = (serviceName: string, optionLabel: string) => {
+    setSelectedService({
+      serviceName,
+      optionName: optionLabel
+    });
+    setActiveServiceIndex(null);
+    navigate("/contact");
+  };
+
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    if (e.target === overlayRef.current) {
+      setActiveServiceIndex(null);
+    }
+  };
+
+  // Close on escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setActiveServiceIndex(null);
+      }
+    };
+    
+    if (activeServiceIndex !== null) {
+      document.addEventListener("keydown", handleEscape);
+      document.body.style.overflow = "hidden";
+    }
+    
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "";
+    };
+  }, [activeServiceIndex]);
+
+  const activeService = activeServiceIndex !== null ? services[activeServiceIndex] : null;
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -87,26 +200,83 @@ const Services = () => {
               const Icon = service.icon;
               return (
                 <ScrollSection key={index} delay={index * 50}>
-                  <div className="service-card border border-[hsl(var(--line-hair))] rounded-xl p-6 bg-[hsl(var(--card))] transition-all duration-300 h-full">
+                  <button
+                    type="button"
+                    onClick={() => handleServiceClick(index)}
+                    className="service-card border border-[hsl(var(--line-hair))] rounded-xl p-6 bg-[hsl(var(--card))] transition-all duration-300 h-full w-full text-left cursor-pointer hover:border-[hsl(var(--foreground)/0.2)] hover:shadow-lg"
+                  >
                     <div className="icon mb-4 transition-transform duration-400">
                       <Icon className="w-8 h-8 text-foreground" strokeWidth={1.5} />
                     </div>
                     <h3 className="text-h4 mb-3">{service.name}</h3>
                     <p className="text-body-m text-muted-foreground mb-4">{service.blurb}</p>
                     <ul className="space-y-2">
-                      {service.bullets.map((bullet, bulletIndex) => (
-                        <li key={bulletIndex} className="text-caption text-muted-foreground">
-                          {bullet}
+                      {service.options.slice(0, -1).map((option, optionIndex) => (
+                        <li key={optionIndex} className="text-caption text-muted-foreground">
+                          {option.label}
                         </li>
                       ))}
                     </ul>
-                  </div>
+                  </button>
                 </ScrollSection>
               );
             })}
           </div>
         </div>
       </section>
+
+      {/* Options Overlay */}
+      {activeService && (
+        <div
+          ref={overlayRef}
+          onClick={handleOverlayClick}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{
+            backgroundColor: "hsl(var(--background) / 0.6)",
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)"
+          }}
+        >
+          <div
+            className="w-full max-w-md bg-[hsl(var(--card))] border border-[hsl(var(--line-hair))] rounded-2xl p-8 shadow-2xl"
+            style={{
+              animation: "fadeSlideUp 200ms ease-out forwards"
+            }}
+          >
+            <div className="mb-6">
+              <h3 className="text-h3 mb-2">{activeService.name}</h3>
+              <p className="text-body-m text-muted-foreground">Select an option to continue</p>
+            </div>
+            
+            <div className="space-y-2">
+              {activeService.options.map((option, optionIndex) => (
+                <button
+                  key={optionIndex}
+                  type="button"
+                  onClick={() => handleOptionSelect(activeService.name, option.label)}
+                  className="w-full flex items-center justify-between p-4 rounded-xl border border-[hsl(var(--line-hair))] bg-[hsl(var(--background))] text-left transition-all duration-200 hover:border-[hsl(var(--foreground)/0.3)] hover:bg-[hsl(var(--muted))]"
+                >
+                  <span className="text-body-m text-foreground">{option.label}</span>
+                  <Check className="w-5 h-5 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      <style>{`
+        @keyframes fadeSlideUp {
+          from {
+            opacity: 0;
+            transform: translateY(12px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
 
       <section className="section-spacing rounded-md">
         <div className="container-narrow">
