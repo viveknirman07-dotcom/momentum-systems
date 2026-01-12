@@ -125,10 +125,40 @@ const recordSubmission = (): void => {
   }
 };
 
+// Format multiple selections into readable text
+const formatSelectionsForForm = (selections: { serviceName: string; optionName: string }[]): string => {
+  if (selections.length === 0) return "";
+
+  // Group selections by service
+  const grouped = selections.reduce((acc, selection) => {
+    if (!acc[selection.serviceName]) {
+      acc[selection.serviceName] = [];
+    }
+    acc[selection.serviceName].push(selection.optionName);
+    return acc;
+  }, {} as Record<string, string[]>);
+
+  // Format as readable text
+  const lines: string[] = [];
+  Object.entries(grouped).forEach(([serviceName, options]) => {
+    lines.push(`Service: ${serviceName}`);
+    options.forEach((option) => {
+      if (option === "Other") {
+        lines.push(`  - Custom requirement (please describe below)`);
+      } else {
+        lines.push(`  - ${option}`);
+      }
+    });
+    lines.push(""); // Empty line between services
+  });
+
+  return lines.join("\n").trim();
+};
+
 const Contact = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { selectedService, clearSelectedService } = useSelectedService();
+  const { selectedServices, clearSelectedServices } = useSelectedService();
 
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
@@ -144,15 +174,12 @@ const Contact = () => {
 
   // Pre-fill form when coming from Services page
   useEffect(() => {
-    if (selectedService) {
-      const prefillText = selectedService.optionName === "Other"
-        ? `Service: ${selectedService.serviceName}\nRequirement: Custom requirement (please describe below)`
-        : `Service: ${selectedService.serviceName}\nOption: ${selectedService.optionName}`;
-      
+    if (selectedServices.length > 0) {
+      const prefillText = formatSelectionsForForm(selectedServices);
       form.setValue("goal", prefillText);
-      clearSelectedService();
+      clearSelectedServices();
     }
-  }, [selectedService, form, clearSelectedService]);
+  }, [selectedServices, form, clearSelectedServices]);
 
   const onSubmit = useCallback((data: ContactFormData) => {
     // Check rate limit

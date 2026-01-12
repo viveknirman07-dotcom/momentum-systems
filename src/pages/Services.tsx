@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Lightbulb, TrendingUp, Users, Target, Linkedin as LinkedinIcon, Search, Share2, GraduationCap, Award, Check, LucideIcon } from "lucide-react";
+import { Lightbulb, TrendingUp, Users, Target, Linkedin as LinkedinIcon, Search, Share2, GraduationCap, Award, Check, LucideIcon, ArrowRight } from "lucide-react";
 import { ScrollSection } from "@/components/ScrollSection";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +20,7 @@ interface Service {
 
 const Services = () => {
   const navigate = useNavigate();
-  const { setSelectedService } = useSelectedService();
+  const { selectedServices, toggleSelection, hasSelection } = useSelectedService();
   const [activeServiceIndex, setActiveServiceIndex] = useState<number | null>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
 
@@ -137,11 +137,14 @@ const Services = () => {
     setActiveServiceIndex(index);
   };
 
-  const handleOptionSelect = (serviceName: string, optionLabel: string) => {
-    setSelectedService({
+  const handleOptionToggle = (serviceName: string, optionLabel: string) => {
+    toggleSelection({
       serviceName,
       optionName: optionLabel
     });
+  };
+
+  const handleContinue = () => {
     setActiveServiceIndex(null);
     navigate("/contact");
   };
@@ -150,6 +153,11 @@ const Services = () => {
     if (e.target === overlayRef.current) {
       setActiveServiceIndex(null);
     }
+  };
+
+  // Get selection count for a specific service
+  const getServiceSelectionCount = (serviceName: string) => {
+    return selectedServices.filter((s) => s.serviceName === serviceName).length;
   };
 
   // Close on escape key
@@ -172,6 +180,7 @@ const Services = () => {
   }, [activeServiceIndex]);
 
   const activeService = activeServiceIndex !== null ? services[activeServiceIndex] : null;
+  const totalSelections = selectedServices.length;
 
   return (
     <div className="min-h-screen bg-background">
@@ -198,15 +207,27 @@ const Services = () => {
           }}>
             {services.map((service, index) => {
               const Icon = service.icon;
+              const selectionCount = getServiceSelectionCount(service.name);
               return (
                 <ScrollSection key={index} delay={index * 50}>
                   <button
                     type="button"
                     onClick={() => handleServiceClick(index)}
-                    className="service-card border border-[hsl(var(--line-hair))] rounded-xl p-6 bg-[hsl(var(--card))] transition-all duration-300 h-full w-full text-left cursor-pointer hover:border-[hsl(var(--foreground)/0.2)] hover:shadow-lg"
+                    className={`service-card border rounded-xl p-6 bg-[hsl(var(--card))] transition-all duration-300 h-full w-full text-left cursor-pointer hover:border-[hsl(var(--foreground)/0.2)] hover:shadow-lg ${
+                      selectionCount > 0 
+                        ? "border-[hsl(var(--foreground)/0.3)]" 
+                        : "border-[hsl(var(--line-hair))]"
+                    }`}
                   >
-                    <div className="icon mb-4 transition-transform duration-400">
-                      <Icon className="w-8 h-8 text-foreground" strokeWidth={1.5} />
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="icon transition-transform duration-400">
+                        <Icon className="w-8 h-8 text-foreground" strokeWidth={1.5} />
+                      </div>
+                      {selectionCount > 0 && (
+                        <span className="text-caption text-foreground bg-[hsl(var(--muted))] px-2 py-1 rounded-full">
+                          {selectionCount} selected
+                        </span>
+                      )}
                     </div>
                     <h3 className="text-h4 mb-3">{service.name}</h3>
                     <p className="text-body-m text-muted-foreground mb-4">{service.blurb}</p>
@@ -245,22 +266,44 @@ const Services = () => {
           >
             <div className="mb-6">
               <h3 className="text-h3 mb-2">{activeService.name}</h3>
-              <p className="text-body-m text-muted-foreground">Select an option to continue</p>
+              <p className="text-body-m text-muted-foreground">Select options (multiple allowed)</p>
             </div>
             
-            <div className="space-y-2">
-              {activeService.options.map((option, optionIndex) => (
-                <button
-                  key={optionIndex}
-                  type="button"
-                  onClick={() => handleOptionSelect(activeService.name, option.label)}
-                  className="w-full flex items-center justify-between p-4 rounded-xl border border-[hsl(var(--line-hair))] bg-[hsl(var(--background))] text-left transition-all duration-200 hover:border-[hsl(var(--foreground)/0.3)] hover:bg-[hsl(var(--muted))]"
-                >
-                  <span className="text-body-m text-foreground">{option.label}</span>
-                  <Check className="w-5 h-5 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
-                </button>
-              ))}
+            <div className="space-y-2 mb-6">
+              {activeService.options.map((option, optionIndex) => {
+                const isSelected = hasSelection(activeService.name, option.label);
+                return (
+                  <button
+                    key={optionIndex}
+                    type="button"
+                    onClick={() => handleOptionToggle(activeService.name, option.label)}
+                    className={`w-full flex items-center justify-between p-4 rounded-xl border text-left transition-all duration-200 ${
+                      isSelected
+                        ? "border-[hsl(var(--foreground)/0.4)] bg-[hsl(var(--muted))]"
+                        : "border-[hsl(var(--line-hair))] bg-[hsl(var(--background))] hover:border-[hsl(var(--foreground)/0.3)] hover:bg-[hsl(var(--muted))]"
+                    }`}
+                  >
+                    <span className="text-body-m text-foreground">{option.label}</span>
+                    <Check 
+                      className={`w-5 h-5 transition-opacity duration-200 ${
+                        isSelected ? "text-foreground opacity-100" : "text-muted-foreground opacity-0"
+                      }`} 
+                    />
+                  </button>
+                );
+              })}
             </div>
+
+            {totalSelections > 0 && (
+              <button
+                type="button"
+                onClick={handleContinue}
+                className="w-full flex items-center justify-center gap-2 p-4 rounded-xl bg-foreground text-background text-body-m font-medium transition-all duration-200 hover:opacity-90"
+              >
+                Continue with {totalSelections} {totalSelections === 1 ? "selection" : "selections"}
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            )}
           </div>
         </div>
       )}
@@ -277,6 +320,25 @@ const Services = () => {
           }
         }
       `}</style>
+
+      {/* Floating Continue Button */}
+      {totalSelections > 0 && activeServiceIndex === null && (
+        <div 
+          className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40"
+          style={{
+            animation: "fadeSlideUp 200ms ease-out forwards"
+          }}
+        >
+          <button
+            type="button"
+            onClick={handleContinue}
+            className="flex items-center gap-3 px-6 py-4 rounded-full bg-foreground text-background text-body-m font-medium shadow-2xl transition-all duration-200 hover:opacity-90"
+          >
+            Continue with {totalSelections} {totalSelections === 1 ? "selection" : "selections"}
+            <ArrowRight className="w-5 h-5" />
+          </button>
+        </div>
+      )}
 
       <section className="section-spacing rounded-md">
         <div className="container-narrow">
