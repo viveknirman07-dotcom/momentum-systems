@@ -23,7 +23,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { ScrollSection } from "@/components/ScrollSection";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import { useSelectedService } from "@/contexts/SelectedServiceContext";
 
 // Rate limiting constants
 const RATE_LIMIT_KEY = "contact_form_submissions";
@@ -127,6 +128,7 @@ const recordSubmission = (): void => {
 const Contact = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { selectedService, clearSelectedService } = useSelectedService();
 
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
@@ -139,6 +141,18 @@ const Contact = () => {
       budget: "",
     },
   });
+
+  // Pre-fill form when coming from Services page
+  useEffect(() => {
+    if (selectedService) {
+      const prefillText = selectedService.optionName === "Other"
+        ? `Service: ${selectedService.serviceName}\nRequirement: Custom requirement (please describe below)`
+        : `Service: ${selectedService.serviceName}\nOption: ${selectedService.optionName}`;
+      
+      form.setValue("goal", prefillText);
+      clearSelectedService();
+    }
+  }, [selectedService, form, clearSelectedService]);
 
   const onSubmit = useCallback((data: ContactFormData) => {
     // Check rate limit
