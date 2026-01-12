@@ -23,23 +23,41 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { ScrollSection } from "@/components/ScrollSection";
+import { useState, useCallback } from "react";
+
+// Rate limiting constants
+const RATE_LIMIT_KEY = "contact_form_submissions";
+const RATE_LIMIT_MAX = 3;
+const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+
+// Sanitize text to remove potentially dangerous characters while preserving readability
+const sanitizeText = (text: string): string => {
+  return text
+    .replace(/[<>]/g, "") // Remove angle brackets to prevent HTML injection
+    .replace(/javascript:/gi, "") // Remove javascript: protocol
+    .replace(/data:/gi, "") // Remove data: protocol
+    .trim();
+};
 
 const contactSchema = z.object({
   name: z
     .string()
     .trim()
     .min(1, "Name is required")
-    .max(100, "Name must be less than 100 characters"),
+    .max(100, "Name must be less than 100 characters")
+    .transform(sanitizeText),
   email: z
     .string()
     .trim()
     .min(1, "Email is required")
     .email("Invalid email address")
-    .max(255, "Email must be less than 255 characters"),
+    .max(255, "Email must be less than 255 characters")
+    .transform((val) => val.toLowerCase()),
   company: z
     .string()
     .trim()
     .max(200, "Company name must be less than 200 characters")
+    .transform(sanitizeText)
     .optional()
     .or(z.literal("")),
   website: z
@@ -56,14 +74,59 @@ const contactSchema = z.object({
     .string()
     .trim()
     .min(10, "Please provide at least 10 characters")
-    .max(2000, "Goal description must be less than 2000 characters"),
+    .max(2000, "Goal description must be less than 2000 characters")
+    .transform(sanitizeText),
   budget: z.string().optional(),
 });
 
 type ContactFormData = z.infer<typeof contactSchema>;
 
+// Check rate limit from localStorage
+const checkRateLimit = (): { allowed: boolean; remaining: number } => {
+  try {
+    const stored = localStorage.getItem(RATE_LIMIT_KEY);
+    const now = Date.now();
+    
+    if (!stored) {
+      return { allowed: true, remaining: RATE_LIMIT_MAX };
+    }
+    
+    const submissions: number[] = JSON.parse(stored);
+    const validSubmissions = submissions.filter(
+      (timestamp) => now - timestamp < RATE_LIMIT_WINDOW_MS
+    );
+    
+    return {
+      allowed: validSubmissions.length < RATE_LIMIT_MAX,
+      remaining: Math.max(0, RATE_LIMIT_MAX - validSubmissions.length),
+    };
+  } catch {
+    return { allowed: true, remaining: RATE_LIMIT_MAX };
+  }
+};
+
+// Record a submission for rate limiting
+const recordSubmission = (): void => {
+  try {
+    const stored = localStorage.getItem(RATE_LIMIT_KEY);
+    const now = Date.now();
+    let submissions: number[] = stored ? JSON.parse(stored) : [];
+    
+    // Clean old entries and add new
+    submissions = submissions.filter(
+      (timestamp) => now - timestamp < RATE_LIMIT_WINDOW_MS
+    );
+    submissions.push(now);
+    
+    localStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(submissions));
+  } catch {
+    // Silently fail if localStorage is unavailable
+  }
+};
+
 const Contact = () => {
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
@@ -77,7 +140,22 @@ const Contact = () => {
     },
   });
 
-  const onSubmit = (data: ContactFormData) => {
+  const onSubmit = useCallback((data: ContactFormData) => {
+    // Check rate limit
+    const { allowed, remaining } = checkRateLimit();
+    
+    if (!allowed) {
+      toast({
+        title: "Too many submissions",
+        description: "Please wait before submitting again.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    // Build mailto content with sanitized data
     const subject = `Contact from ${data.name}`;
     const body = `Name: ${data.name}
 Email: ${data.email}
@@ -92,15 +170,19 @@ ${data.goal}`;
       subject
     )}&body=${encodeURIComponent(body)}`;
 
+    // Record submission for rate limiting
+    recordSubmission();
+
     window.location.href = mailtoLink;
 
     toast({
       title: "Thank you",
-      description: "We usually reply within two business days.",
+      description: `We usually reply within two business days. (${remaining - 1} submissions remaining this hour)`,
     });
 
     form.reset();
-  };
+    setIsSubmitting(false);
+  }, [form, toast]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -245,9 +327,10 @@ ${data.goal}`;
 
                 <Button
                   type="submit"
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-8 text-base font-medium rounded-lg transition-all duration-[120ms]"
+                  disabled={isSubmitting}
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-8 text-base font-medium rounded-lg transition-all duration-[120ms] disabled:opacity-50"
                 >
-                  Send
+                  {isSubmitting ? "Sending..." : "Send"}
                 </Button>
               </form>
             </Form>
