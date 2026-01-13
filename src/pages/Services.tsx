@@ -298,7 +298,7 @@ const Services = () => {
               <button
                 type="button"
                 onClick={handleContinue}
-                className="w-full flex items-center justify-center gap-2 p-4 rounded-xl bg-foreground text-background text-body-m font-medium transition-all duration-200 hover:opacity-90"
+                className="w-full flex items-center justify-center gap-2 p-4 rounded-xl bg-foreground text-background text-body-m font-normal transition-all duration-200 hover:opacity-90"
               >
                 Continue with {totalSelections} {totalSelections === 1 ? "selection" : "selections"}
                 <ArrowRight className="w-5 h-5" />
@@ -332,7 +332,7 @@ const Services = () => {
           <button
             type="button"
             onClick={handleContinue}
-            className="flex items-center gap-3 px-6 py-4 rounded-full bg-foreground text-background text-body-m font-medium shadow-2xl transition-all duration-200 hover:opacity-90"
+            className="flex items-center gap-3 px-6 py-4 rounded-full bg-foreground text-background text-body-m font-normal shadow-2xl transition-all duration-200 hover:opacity-90"
           >
             Continue with {totalSelections} {totalSelections === 1 ? "selection" : "selections"}
             <ArrowRight className="w-5 h-5" />
