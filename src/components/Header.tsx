@@ -94,31 +94,28 @@ const Header = () => {
           {/* Mobile Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="lg:hidden">
-              <button 
-                className="hamburger-btn min-w-[44px] min-h-[44px] flex items-center justify-center"
-                aria-label="Open menu"
-                aria-expanded={isOpen}
-                aria-controls="mobile-menu"
-              >
+              <div className="mobile-menu-trigger-wrapper">
                 <div className={`hamburger-icon ${isOpen ? 'open' : ''}`}>
                   <span></span>
                   <span></span>
                   <span></span>
                 </div>
-              </button>
+              </div>
             </SheetTrigger>
             <SheetContent 
               side="top" 
               className="mobile-menu-overlay bg-black text-white border-none p-0 max-w-none w-full h-full inset-0 rounded-none"
             >
-              <button 
+              <div 
                 onClick={() => setIsOpen(false)} 
-                className="menu-close" 
-                aria-label="Close menu" 
-                type="button"
+                className="menu-close"
+                role="button"
+                tabIndex={0}
+                aria-label="Close menu"
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setIsOpen(false); }}
               >
                 <span className="x" aria-hidden="true" />
-              </button>
+              </div>
               <nav id="mobile-menu" className="mobile-menu-nav">
                 <ul className="nav-list">
                   {navItems.map((item, index) => (
