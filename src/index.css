@@ -397,7 +397,7 @@
   button, .btn, a.button {
     border-radius: 10px;
     padding: 0.9rem 1.2rem;
-    font-weight: 600;
+    font-weight: 400;
     min-width: 160px;
     transition: background-color 250ms ease-in-out,
                 border-color 250ms ease-in-out,
