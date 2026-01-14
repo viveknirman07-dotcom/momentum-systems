@@ -1478,3 +1478,66 @@ button,
     transition: none !important;
   }
 }
+
+/* ===== Page Transition Animations ===== */
+.page-transition {
+  will-change: opacity, transform, filter;
+}
+
+.page-transition.idle {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+.page-transition.exit {
+  animation: pageExit 250ms cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+.page-transition.enter {
+  animation: pageEnter 400ms cubic-bezier(0, 0, 0.2, 1) forwards;
+}
+
+@keyframes pageExit {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-12px);
+    filter: blur(4px);
+  }
+}
+
+@keyframes pageEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(6px);
+  }
+  60% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .page-transition.exit,
+  .page-transition.enter {
+    animation: none;
+  }
+  
+  .page-transition {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
