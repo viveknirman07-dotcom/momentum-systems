@@ -1,0 +1,45 @@
+import { motion, type Transition } from "framer-motion";
+import { ReactNode } from "react";
+
+interface PageTransitionProps {
+  children: ReactNode;
+}
+
+const pageVariants = {
+  initial: {
+    opacity: 0,
+    y: 20,
+    filter: "blur(4px)",
+  },
+  enter: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+  },
+  exit: {
+    opacity: 0,
+    y: -10,
+    filter: "blur(4px)",
+  },
+};
+
+const pageTransition: Transition = {
+  type: "tween",
+  ease: [0.25, 0.46, 0.45, 0.94] as const,
+  duration: 0.5,
+};
+
+export const PageTransition = ({ children }: PageTransitionProps) => {
+  return (
+    <motion.div
+      variants={pageVariants}
+      initial="initial"
+      animate="enter"
+      exit="exit"
+      transition={pageTransition}
+      className="min-h-screen"
+    >
+      {children}
+    </motion.div>
+  );
+};
