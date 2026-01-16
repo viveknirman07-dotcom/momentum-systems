@@ -1,11 +1,12 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Lightbulb, TrendingUp, Users, Target, Linkedin as LinkedinIcon, Search, Share2, GraduationCap, Award, Check, LucideIcon, ArrowRight } from "lucide-react";
+import { Lightbulb, TrendingUp, Users, Target, Linkedin as LinkedinIcon, Search, Share2, GraduationCap, Award, Check, LucideIcon, ArrowRight, X } from "lucide-react";
 import { ScrollSection } from "@/components/ScrollSection";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelectedService } from "@/contexts/SelectedServiceContext";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface ServiceOption {
   label: string;
@@ -21,8 +22,8 @@ interface Service {
 const Services = () => {
   const navigate = useNavigate();
   const { selectedServices, toggleSelection, hasSelection } = useSelectedService();
-  const [activeServiceIndex, setActiveServiceIndex] = useState<number | null>(null);
-  const overlayRef = useRef<HTMLDivElement>(null);
+  const [expandedCardIndex, setExpandedCardIndex] = useState<number | null>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const services: Service[] = [{
     name: "Business Consulting and Growth Strategy",
@@ -133,11 +134,16 @@ const Services = () => {
     a: "We begin with a short paid clarity call, a focused session to understand your growth goals."
   }];
 
-  const handleServiceClick = (index: number) => {
-    setActiveServiceIndex(index);
+  const handleCardClick = (index: number) => {
+    if (expandedCardIndex === index) {
+      setExpandedCardIndex(null);
+    } else {
+      setExpandedCardIndex(index);
+    }
   };
 
-  const handleOptionToggle = (serviceName: string, optionLabel: string) => {
+  const handleOptionToggle = (serviceName: string, optionLabel: string, e: React.MouseEvent) => {
+    e.stopPropagation();
     toggleSelection({
       serviceName,
       optionName: optionLabel
@@ -145,14 +151,13 @@ const Services = () => {
   };
 
   const handleContinue = () => {
-    setActiveServiceIndex(null);
+    setExpandedCardIndex(null);
     navigate("/contact");
   };
 
-  const handleOverlayClick = (e: React.MouseEvent) => {
-    if (e.target === overlayRef.current) {
-      setActiveServiceIndex(null);
-    }
+  const handleCloseExpanded = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setExpandedCardIndex(null);
   };
 
   // Get selection count for a specific service
@@ -164,22 +169,14 @@ const Services = () => {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setActiveServiceIndex(null);
+        setExpandedCardIndex(null);
       }
     };
     
-    if (activeServiceIndex !== null) {
-      document.addEventListener("keydown", handleEscape);
-      document.body.style.overflow = "hidden";
-    }
-    
-    return () => {
-      document.removeEventListener("keydown", handleEscape);
-      document.body.style.overflow = "";
-    };
-  }, [activeServiceIndex]);
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, []);
 
-  const activeService = activeServiceIndex !== null ? services[activeServiceIndex] : null;
   const totalSelections = selectedServices.length;
 
   return (
@@ -208,37 +205,112 @@ const Services = () => {
             {services.map((service, index) => {
               const Icon = service.icon;
               const selectionCount = getServiceSelectionCount(service.name);
+              const isExpanded = expandedCardIndex === index;
+              
               return (
                 <ScrollSection key={index} delay={index * 50}>
-                  <button
-                    type="button"
-                    onClick={() => handleServiceClick(index)}
-                    className={`service-card border rounded-xl p-6 bg-[hsl(var(--card))] transition-all duration-300 h-full w-full text-left cursor-pointer hover:border-[hsl(var(--foreground)/0.2)] hover:shadow-lg ${
-                      selectionCount > 0 
-                        ? "border-[hsl(var(--foreground)/0.3)]" 
-                        : "border-[hsl(var(--line-hair))]"
-                    }`}
+                  <div 
+                    ref={(el) => { cardRefs.current[index] = el; }}
+                    className="relative"
                   >
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="icon transition-transform duration-400">
-                        <Icon className="w-8 h-8 text-foreground" strokeWidth={1.5} />
+                    <motion.div
+                      layout
+                      onClick={() => handleCardClick(index)}
+                      className={`service-card border rounded-xl p-6 bg-[hsl(var(--card))] transition-colors duration-300 w-full text-left cursor-pointer ${
+                        isExpanded 
+                          ? "border-[hsl(var(--foreground)/0.3)] shadow-xl" 
+                          : selectionCount > 0 
+                            ? "border-[hsl(var(--foreground)/0.3)]" 
+                            : "border-[hsl(var(--line-hair))] hover:border-[hsl(var(--foreground)/0.2)] hover:shadow-lg"
+                      }`}
+                    >
+                      {/* Card Header */}
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="icon transition-transform duration-400">
+                          <Icon className="w-8 h-8 text-foreground" strokeWidth={1.5} />
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {selectionCount > 0 && (
+                            <span className="text-caption text-foreground bg-[hsl(var(--muted))] px-2 py-1 rounded-full">
+                              {selectionCount} selected
+                            </span>
+                          )}
+                          {isExpanded && (
+                            <button
+                              onClick={handleCloseExpanded}
+                              className="p-1 rounded-full hover:bg-[hsl(var(--muted))] transition-colors"
+                              aria-label="Close options"
+                            >
+                              <X className="w-5 h-5 text-muted-foreground" />
+                            </button>
+                          )}
+                        </div>
                       </div>
-                      {selectionCount > 0 && (
-                        <span className="text-caption text-foreground bg-[hsl(var(--muted))] px-2 py-1 rounded-full">
-                          {selectionCount} selected
-                        </span>
-                      )}
-                    </div>
-                    <h3 className="text-h4 mb-3">{service.name}</h3>
-                    <p className="text-body-m text-muted-foreground mb-4">{service.blurb}</p>
-                    <ul className="space-y-2">
-                      {service.options.slice(0, -1).map((option, optionIndex) => (
-                        <li key={optionIndex} className="text-caption text-muted-foreground">
-                          {option.label}
-                        </li>
-                      ))}
-                    </ul>
-                  </button>
+                      
+                      {/* Card Title and Blurb */}
+                      <h3 className="text-h4 mb-3">{service.name}</h3>
+                      <p className="text-body-m text-muted-foreground mb-4">{service.blurb}</p>
+                      
+                      {/* Collapsed State - Show preview of options */}
+                      <AnimatePresence mode="wait">
+                        {!isExpanded && (
+                          <motion.ul
+                            initial={{ opacity: 1 }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.15 }}
+                            className="space-y-2"
+                          >
+                            {service.options.slice(0, -1).map((option, optionIndex) => (
+                              <li key={optionIndex} className="text-caption text-muted-foreground">
+                                {option.label}
+                              </li>
+                            ))}
+                          </motion.ul>
+                        )}
+                      </AnimatePresence>
+                      
+                      {/* Expanded State - Show selectable options inline */}
+                      <AnimatePresence>
+                        {isExpanded && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.2, ease: "easeOut" }}
+                            className="overflow-hidden"
+                          >
+                            <div className="pt-2 border-t border-[hsl(var(--line-hair))]">
+                              <p className="text-caption text-muted-foreground mb-3">Select options (multiple allowed)</p>
+                              <div className="space-y-2">
+                                {service.options.map((option, optionIndex) => {
+                                  const isSelected = hasSelection(service.name, option.label);
+                                  return (
+                                    <button
+                                      key={optionIndex}
+                                      type="button"
+                                      onClick={(e) => handleOptionToggle(service.name, option.label, e)}
+                                      className={`w-full flex items-center justify-between p-3 rounded-lg border text-left transition-all duration-200 ${
+                                        isSelected
+                                          ? "border-[hsl(var(--foreground)/0.4)] bg-[hsl(var(--muted))]"
+                                          : "border-[hsl(var(--line-hair))] bg-[hsl(var(--background))] hover:border-[hsl(var(--foreground)/0.3)] hover:bg-[hsl(var(--muted))]"
+                                      }`}
+                                    >
+                                      <span className="text-body-m text-foreground">{option.label}</span>
+                                      <Check 
+                                        className={`w-4 h-4 transition-opacity duration-200 ${
+                                          isSelected ? "text-foreground opacity-100" : "text-muted-foreground opacity-0"
+                                        }`} 
+                                      />
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.div>
+                  </div>
                 </ScrollSection>
               );
             })}
@@ -246,99 +318,27 @@ const Services = () => {
         </div>
       </section>
 
-      {/* Options Overlay */}
-      {activeService && (
-        <div
-          ref={overlayRef}
-          onClick={handleOverlayClick}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{
-            backgroundColor: "hsl(var(--background) / 0.6)",
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)"
-          }}
-        >
-          <div
-            className="w-full max-w-md bg-[hsl(var(--card))] border border-[hsl(var(--line-hair))] rounded-2xl p-8 shadow-2xl"
-            style={{
-              animation: "fadeSlideUp 200ms ease-out forwards"
-            }}
-          >
-            <div className="mb-6">
-              <h3 className="text-h3 mb-2">{activeService.name}</h3>
-              <p className="text-body-m text-muted-foreground">Select options (multiple allowed)</p>
-            </div>
-            
-            <div className="space-y-2 mb-6">
-              {activeService.options.map((option, optionIndex) => {
-                const isSelected = hasSelection(activeService.name, option.label);
-                return (
-                  <button
-                    key={optionIndex}
-                    type="button"
-                    onClick={() => handleOptionToggle(activeService.name, option.label)}
-                    className={`w-full flex items-center justify-between p-4 rounded-xl border text-left transition-all duration-200 ${
-                      isSelected
-                        ? "border-[hsl(var(--foreground)/0.4)] bg-[hsl(var(--muted))]"
-                        : "border-[hsl(var(--line-hair))] bg-[hsl(var(--background))] hover:border-[hsl(var(--foreground)/0.3)] hover:bg-[hsl(var(--muted))]"
-                    }`}
-                  >
-                    <span className="text-body-m text-foreground">{option.label}</span>
-                    <Check 
-                      className={`w-5 h-5 transition-opacity duration-200 ${
-                        isSelected ? "text-foreground opacity-100" : "text-muted-foreground opacity-0"
-                      }`} 
-                    />
-                  </button>
-                );
-              })}
-            </div>
-
-            {totalSelections > 0 && (
-              <button
-                type="button"
-                onClick={handleContinue}
-                className="w-full flex items-center justify-center gap-2 p-4 rounded-xl bg-foreground text-background text-body-m font-normal transition-all duration-200 hover:opacity-90"
-              >
-                Continue with {totalSelections} {totalSelections === 1 ? "selection" : "selections"}
-                <ArrowRight className="w-5 h-5" />
-              </button>
-            )}
-          </div>
-        </div>
-      )}
-
-      <style>{`
-        @keyframes fadeSlideUp {
-          from {
-            opacity: 0;
-            transform: translateY(12px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
-
       {/* Floating Continue Button */}
-      {totalSelections > 0 && activeServiceIndex === null && (
-        <div 
-          className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40"
-          style={{
-            animation: "fadeSlideUp 200ms ease-out forwards"
-          }}
-        >
-          <button
-            type="button"
-            onClick={handleContinue}
-            className="flex items-center gap-3 px-6 py-4 rounded-full bg-foreground text-background text-body-m font-normal shadow-2xl transition-all duration-200 hover:opacity-90"
+      <AnimatePresence>
+        {totalSelections > 0 && (
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.2 }}
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40"
           >
-            Continue with {totalSelections} {totalSelections === 1 ? "selection" : "selections"}
-            <ArrowRight className="w-5 h-5" />
-          </button>
-        </div>
-      )}
+            <button
+              type="button"
+              onClick={handleContinue}
+              className="flex items-center gap-3 px-6 py-4 rounded-full bg-foreground text-background text-body-m font-normal shadow-2xl transition-all duration-200 hover:opacity-90"
+            >
+              Continue with {totalSelections} {totalSelections === 1 ? "selection" : "selections"}
+              <ArrowRight className="w-5 h-5" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <section className="section-spacing rounded-md">
         <div className="container-narrow">
