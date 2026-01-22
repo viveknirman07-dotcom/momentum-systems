@@ -4,23 +4,8 @@ import { ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ScrollSection } from "@/components/ScrollSection";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
 
 const Home = () => {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-
-  // Parallax transforms for hero elements
-  const titleY = useTransform(scrollYProgress, [0, 1], [0, 80]);
-  const subtitleY = useTransform(scrollYProgress, [0, 1], [0, 120]);
-  const ctaY = useTransform(scrollYProgress, [0, 1], [0, 160]);
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-  const heroScale = useTransform(scrollYProgress, [0, 0.6], [1, 0.95]);
-
   const pillars = [{
     title: "Strategy and Architecture",
     body: "Positioning, offer structure and system roadmaps that reduce randomness and increase repeatability."
@@ -51,33 +36,21 @@ const Home = () => {
       {/* Spacer for fixed header */}
       <div className="h-16 lg:h-[72px]" />
 
-      {/* Hero Section with Parallax */}
-      <section ref={heroRef} className="section-spacing relative overflow-hidden">
-        <motion.div 
-          className="container-narrow"
-          style={{ opacity: heroOpacity, scale: heroScale }}
-        >
+      {/* Hero Section */}
+      <section className="section-spacing">
+        <div className="container-narrow">
           <ScrollSection>
-            <motion.h1 
-              className="text-display mb-6 text-left neon-glow"
-              style={{ y: titleY }}
-            >
+            <h1 className="text-display mb-6 text-left neon-glow">
               We engineer momentum systems that compound attention into meaningful outcomes.
-            </motion.h1>
+            </h1>
           </ScrollSection>
           <ScrollSection delay={100}>
-            <motion.p 
-              className="text-body-l text-muted-foreground mb-12 max-w-3xl"
-              style={{ y: subtitleY }}
-            >
+            <p className="text-body-l text-muted-foreground mb-12 max-w-3xl">
               Built for professionals, entrepreneurs and modern brands who operate with intention.
-            </motion.p>
+            </p>
           </ScrollSection>
           <ScrollSection delay={200}>
-            <motion.div 
-              className="flex flex-col sm:flex-row gap-4 items-start"
-              style={{ y: ctaY }}
-            >
+            <div className="flex flex-col sm:flex-row gap-4 items-start">
               <Button asChild variant="ghost" size="lg" className="hover-underline text-base px-0 h-auto font-normal">
                 <Link to="/services">
                   View services
@@ -87,9 +60,9 @@ const Home = () => {
               <Button asChild variant="ghost" size="lg" className="hover-underline text-base px-0 h-auto font-normal text-muted-foreground hover:text-foreground">
                 <Link to="/contact">Contact</Link>
               </Button>
-            </motion.div>
+            </div>
           </ScrollSection>
-        </motion.div>
+        </div>
       </section>
 
       {/* Pillars Section */}

@@ -1478,32 +1478,3 @@ button,
     transition: none !important;
   }
 }
-
-/* Service Card Inline Expansion */
-.service-card {
-  will-change: transform;
-}
-
-.service-card.expanded {
-  z-index: 10;
-}
-
-/* Skeleton loading animation enhancement */
-@keyframes skeletonPulse {
-  0%, 100% {
-    opacity: 0.4;
-  }
-  50% {
-    opacity: 0.7;
-  }
-}
-
-.skeleton-loading {
-  animation: skeletonPulse 1.5s ease-in-out infinite;
-}
-
-/* Parallax section styling */
-.parallax-hero {
-  will-change: transform, opacity;
-  transform-style: preserve-3d;
-}
