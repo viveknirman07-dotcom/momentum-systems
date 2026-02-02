@@ -48,17 +48,34 @@
   --font-display: 'Cormorant Garamond', 'Georgia', serif;
   --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
   
-  /* Motion - Premium Easing System */
-  --ease-premium: cubic-bezier(0.22, 0.61, 0.36, 1);
-  --ease-cinematic: cubic-bezier(0.16, 0.85, 0.45, 1);
-  --ease-luxe: cubic-bezier(0.33, 1, 0.68, 1);
-  --ease-controlled: cubic-bezier(0.25, 0.1, 0.25, 1);
-  --ease-entrance: cubic-bezier(0.0, 0.0, 0.2, 1);
-  --duration-instant: 80ms;
-  --duration-fast: 150ms;
-  --duration-medium: 250ms;
-  --duration-slow: 400ms;
-  --duration-cinematic: 800ms;
+  /* ============================================
+     LUXURY MOTION SYSTEM - Film-Grade Timing
+     Slow acceleration, smooth deceleration
+     ============================================ */
+  
+  /* Primary easing: Luxury slow-in, elegant-out */
+  --ease-luxury: cubic-bezier(0.4, 0.0, 0.2, 1);
+  
+  /* Cinematic: Very slow start, refined finish - for hero/major reveals */
+  --ease-cinematic: cubic-bezier(0.16, 0.1, 0.3, 1);
+  
+  /* Orchestrated: For sequenced/choreographed motion */
+  --ease-orchestrated: cubic-bezier(0.45, 0.0, 0.15, 1);
+  
+  /* Subtle: For micro-feedback, barely perceptible */
+  --ease-subtle: cubic-bezier(0.4, 0.0, 0.6, 1);
+  
+  /* Reveal: For clip-path and masked reveals */
+  --ease-reveal: cubic-bezier(0.65, 0.0, 0.35, 1);
+  
+  /* Duration rhythm - consistent across site */
+  --duration-micro: 200ms;
+  --duration-base: 600ms;
+  --duration-long: 900ms;
+  --duration-reveal: 1200ms;
+  
+  /* Stagger rhythm for choreography */
+  --stagger-unit: 80ms;
   
   /* Mobile edge gap */
   --edge-gap-mobile: 24px;
@@ -118,8 +135,8 @@
     font-feature-settings: 'rlig' 1, 'calt' 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    transition: background-color var(--duration-slow) var(--ease-cinematic), 
-                color var(--duration-slow) var(--ease-cinematic);
+    transition: background-color var(--duration-base) var(--ease-luxury), 
+                color var(--duration-base) var(--ease-luxury);
     /* Smooth overscroll */
     overscroll-behavior-y: none;
   }
@@ -132,12 +149,12 @@
 
 /* ============================================
    INITIAL SITE LOAD ANIMATION
-   Subtle fade-in on first visit only
+   Cinematic entrance on first visit only
    ============================================ */
 @keyframes siteReveal {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -146,7 +163,7 @@
 }
 
 .site-enter {
-  animation: siteReveal 1s var(--ease-cinematic) forwards;
+  animation: siteReveal var(--duration-long) var(--ease-cinematic) forwards;
 }
 
 /* ============================================
@@ -268,7 +285,12 @@
     }
   }
   
-  /* Premium Motion System */
+  /* ============================================
+     LAYER 3: MICRO-FEEDBACK SYSTEM
+     Tactile response without visual change
+     ============================================ */
+  
+  /* Underline reveal - elegant, restrained */
   .hover-underline {
     position: relative;
   }
@@ -283,7 +305,7 @@
     background: currentColor;
     transform: scaleX(0);
     transform-origin: right;
-    transition: transform var(--duration-medium) var(--ease-luxe);
+    transition: transform var(--duration-base) var(--ease-orchestrated);
   }
   
   .hover-underline:hover::after {
@@ -291,24 +313,29 @@
     transform-origin: left;
   }
   
+  /* Lift interaction - subtle depth illusion via motion only */
   .hover-lift {
-    transition: transform var(--duration-medium) var(--ease-cinematic), 
-                box-shadow var(--duration-slow) var(--ease-controlled);
+    transition: transform var(--duration-base) var(--ease-luxury);
   }
   
   .hover-lift:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
   }
   
+  .hover-lift:active {
+    transform: translateY(0);
+    transition-duration: var(--duration-micro);
+  }
+  
+  /* Fade entrance */
   .fade-in {
-    animation: fadeIn var(--duration-slow) var(--ease-entrance);
+    animation: fadeIn var(--duration-base) var(--ease-cinematic);
   }
   
   @keyframes fadeIn {
     from {
       opacity: 0;
-      transform: translateY(12px);
+      transform: translateY(16px);
     }
     to {
       opacity: 1;
@@ -316,19 +343,26 @@
     }
   }
   
-  /* Premium micro-interaction for interactive elements */
-  .premium-hover {
-    transition: transform var(--duration-medium) var(--ease-cinematic),
-                opacity var(--duration-fast) var(--ease-controlled);
+  /* Premium micro-interaction - barely perceptible but satisfying */
+  .micro-lift {
+    transition: transform var(--duration-micro) var(--ease-subtle);
   }
   
-  .premium-hover:hover {
+  .micro-lift:hover {
     transform: translateY(-1px);
   }
   
-  .premium-hover:active {
+  .micro-lift:active {
     transform: translateY(0);
-    opacity: 0.9;
+  }
+  
+  /* Click acknowledgment - fast, satisfying response */
+  .click-feedback {
+    transition: transform var(--duration-micro) var(--ease-subtle);
+  }
+  
+  .click-feedback:active {
+    transform: scale(0.98);
   }
   
   /* Logo animations */
@@ -1104,53 +1138,55 @@ html, body, #root {
 .rounded-lg.border.bg-card,
 [class*="Card"] {
   transition: 
-    background-color var(--duration-slow) var(--ease-controlled), 
-    border-color var(--duration-slow) var(--ease-controlled),
-    box-shadow var(--duration-slow) var(--ease-cinematic),
-    transform var(--duration-slow) var(--ease-cinematic),
-    color var(--duration-slow) var(--ease-controlled);
+    transform var(--duration-base) var(--ease-luxury),
+    opacity var(--duration-base) var(--ease-luxury);
 }
 
-/* Global hover and tap animations */
+/* ============================================
+   GLOBAL INTERACTION MOTION
+   Tactile feedback without visual changes
+   ============================================ */
+
+/* Interactive elements - base motion layer */
 button, .btn, a, .card, [class*="Card"], img {
-  transition: transform var(--duration-medium) var(--ease-cinematic),
-              opacity var(--duration-fast) var(--ease-controlled);
-  will-change: transform, opacity;
+  transition: transform var(--duration-micro) var(--ease-subtle);
+  will-change: transform;
 }
 
-/* Refined button hover - subtle, premium feel */
+/* Button hover - subtle lift, click acknowledgment */
 button:hover:not(:disabled), .btn:hover {
   transform: translateY(-1px);
 }
 
 button:active:not(:disabled), .btn:active {
-  transform: translateY(0);
-  transition-duration: var(--duration-instant);
+  transform: translateY(0) scale(0.99);
+  transition-duration: calc(var(--duration-micro) * 0.5);
 }
 
-/* Link hover - elegant understate */
+/* Link interaction - understated elegance */
+a {
+  transition: opacity var(--duration-micro) var(--ease-subtle);
+}
+
 a:hover {
   opacity: 0.85;
 }
 
 a:active {
   opacity: 0.75;
-  transition-duration: var(--duration-instant);
 }
 
-/* Navigation link animations - controlled, professional */
+/* Navigation - controlled, professional motion */
 nav a {
-  transition: opacity var(--duration-medium) var(--ease-controlled),
-              transform var(--duration-medium) var(--ease-cinematic);
+  transition: opacity var(--duration-base) var(--ease-luxury);
 }
 
 nav a:hover {
-  opacity: 0.8;
+  opacity: 0.75;
 }
 
 nav a:active {
-  opacity: 0.7;
-  transform: translateY(0);
+  opacity: 0.65;
 }
 
 /* Minimal scrollbar styling */
@@ -1249,32 +1285,41 @@ button,
 }
 
 /* ============================================
-   PREMIUM SCROLL ANIMATIONS
-   Cinematic reveal with refined timing
+   CINEMATIC CONTENT REVEAL SYSTEM
+   Film-grade choreographed motion
    ============================================ */
+
+/* Base scroll animation - invisible mask reveal */
 .scroll-animate {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(20px);
   transition: 
-    opacity var(--duration-cinematic) var(--ease-cinematic), 
-    transform var(--duration-cinematic) var(--ease-cinematic),
-    filter var(--duration-cinematic) var(--ease-controlled);
-  filter: blur(4px);
-  will-change: transform, opacity, filter;
+    opacity var(--duration-base) var(--ease-cinematic), 
+    transform var(--duration-base) var(--ease-cinematic);
+  will-change: transform, opacity;
 }
 
 .scroll-animate.visible {
   opacity: 1;
   transform: translateY(0);
-  filter: blur(0);
 }
 
-/* Heading-specific animation - slightly more dramatic */
+/* ============================================
+   LAYER 2: Choreographed Content Hierarchy
+   Headings lead → Text follows → Elements complete
+   ============================================ */
+
+/* Headings: Authoritative, calm entrance */
 h1.scroll-animate,
 h2.scroll-animate,
 .scroll-animate h1,
-.scroll-animate h2 {
-  transform: translateY(32px);
+.scroll-animate h2,
+.text-display,
+.text-h2 {
+  transform: translateY(28px);
+  transition: 
+    opacity var(--duration-long) var(--ease-cinematic),
+    transform var(--duration-long) var(--ease-cinematic);
 }
 
 h1.scroll-animate.visible,
@@ -1284,26 +1329,104 @@ h2.scroll-animate.visible,
   transform: translateY(0);
 }
 
-/* Paragraph and body content - gentler, more refined */
+/* Paragraphs: Supportive, delayed entrance */
 p.scroll-animate,
-.scroll-animate p {
-  transform: translateY(16px);
-  filter: blur(2px);
+.scroll-animate p,
+.text-body-l,
+.text-body-m {
+  transform: translateY(12px);
+  transition: 
+    opacity var(--duration-base) var(--ease-luxury),
+    transform var(--duration-base) var(--ease-luxury);
+  transition-delay: calc(var(--stagger-unit) * 1);
 }
 
 p.scroll-animate.visible,
 .scroll-animate.visible p {
   transform: translateY(0);
-  filter: blur(0);
 }
 
-/* Staggered delay utilities for hierarchy */
-.scroll-delay-1 { transition-delay: 50ms; }
-.scroll-delay-2 { transition-delay: 100ms; }
-.scroll-delay-3 { transition-delay: 150ms; }
-.scroll-delay-4 { transition-delay: 200ms; }
-.scroll-delay-5 { transition-delay: 250ms; }
-.scroll-delay-6 { transition-delay: 300ms; }
+/* Cards/containers: Complete the sequence */
+.scroll-animate .border,
+.scroll-animate [class*="card"],
+.card-glow {
+  transition: 
+    opacity var(--duration-base) var(--ease-orchestrated),
+    transform var(--duration-base) var(--ease-orchestrated);
+  transition-delay: calc(var(--stagger-unit) * 2);
+}
+
+/* ============================================
+   CINEMATIC CLIP-PATH REVEALS
+   Invisible mask technique for premium reveals
+   ============================================ */
+
+/* Reveal from bottom */
+.reveal-clip {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path var(--duration-reveal) var(--ease-reveal);
+}
+
+.reveal-clip.visible {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Reveal from left */
+.reveal-clip-left {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path var(--duration-reveal) var(--ease-reveal);
+}
+
+.reveal-clip-left.visible {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Reveal wipe (center outward) */
+.reveal-clip-center {
+  clip-path: inset(0 50% 0 50%);
+  transition: clip-path var(--duration-reveal) var(--ease-reveal);
+}
+
+.reveal-clip-center.visible {
+  clip-path: inset(0 0 0 0);
+}
+
+/* ============================================
+   CHOREOGRAPHED STAGGER SYSTEM
+   Precise timing for sequenced reveals
+   ============================================ */
+
+.stagger-1 { transition-delay: calc(var(--stagger-unit) * 0); }
+.stagger-2 { transition-delay: calc(var(--stagger-unit) * 1); }
+.stagger-3 { transition-delay: calc(var(--stagger-unit) * 2); }
+.stagger-4 { transition-delay: calc(var(--stagger-unit) * 3); }
+.stagger-5 { transition-delay: calc(var(--stagger-unit) * 4); }
+.stagger-6 { transition-delay: calc(var(--stagger-unit) * 5); }
+.stagger-7 { transition-delay: calc(var(--stagger-unit) * 6); }
+.stagger-8 { transition-delay: calc(var(--stagger-unit) * 7); }
+
+/* ============================================
+   DEPTH ILLUSION THROUGH TIMING
+   Layered motion creates perceived depth
+   ============================================ */
+
+/* Foreground elements: Faster, leads the motion */
+.depth-front {
+  transition-duration: var(--duration-base);
+  transition-delay: 0ms;
+}
+
+/* Midground: Standard timing */
+.depth-mid {
+  transition-duration: calc(var(--duration-base) * 1.15);
+  transition-delay: calc(var(--stagger-unit) * 0.5);
+}
+
+/* Background elements: Slower, follows the motion */
+.depth-back {
+  transition-duration: calc(var(--duration-base) * 1.3);
+  transition-delay: calc(var(--stagger-unit) * 1);
+}
 
 /* Neon glow text effect */
 .neon-glow {
@@ -1356,31 +1479,22 @@ p.scroll-animate.visible,
   z-index: 2;
 }
 
-/* Card hover glow effect - refined premium interaction */
+/* ============================================
+   CARD MOTION - Controlled lift via motion only
+   No scale, no shadow change, no color shift
+   ============================================ */
 .card-glow {
   position: relative;
-  transition: transform var(--duration-slow) var(--ease-cinematic),
-              box-shadow var(--duration-slow) var(--ease-controlled);
-}
-
-.card-glow::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  background: linear-gradient(135deg, hsl(var(--primary) / 0.15), transparent, hsl(var(--primary) / 0.08));
-  opacity: 0;
-  transition: opacity var(--duration-slow) var(--ease-controlled);
-  z-index: -1;
-}
-
-.card-glow:hover::before {
-  opacity: 1;
+  transition: transform var(--duration-base) var(--ease-luxury);
 }
 
 .card-glow:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04);
+  transform: translateY(-2px);
+}
+
+.card-glow:active {
+  transform: translateY(0);
+  transition-duration: var(--duration-micro);
 }
 
 /* Parallax container */
@@ -1389,84 +1503,73 @@ p.scroll-animate.visible,
   overflow: hidden;
 }
 
-/* Geometric shape animations */
-@keyframes rotateShape {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+/* ============================================
+   DIRECTIONAL REVEALS - Cinematic Entrances
+   No blur, no distortion - pure motion
+   ============================================ */
 
-@keyframes morphShape {
-  0%, 100% {
-    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-  }
-  50% {
-    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-  }
-}
-
-.morph-blob {
-  animation: morphShape 8s ease-in-out infinite;
-}
-
-/* Reveal from left/right - cinematic timing */
+/* Reveal from left */
 .reveal-left {
   opacity: 0;
-  transform: translateX(-40px);
-  transition: all var(--duration-cinematic) var(--ease-cinematic);
-  filter: blur(3px);
+  transform: translateX(-24px);
+  transition: 
+    opacity var(--duration-long) var(--ease-cinematic),
+    transform var(--duration-long) var(--ease-cinematic);
 }
 
 .reveal-left.visible {
   opacity: 1;
   transform: translateX(0);
-  filter: blur(0);
 }
 
+/* Reveal from right */
 .reveal-right {
   opacity: 0;
-  transform: translateX(40px);
-  transition: all var(--duration-cinematic) var(--ease-cinematic);
-  filter: blur(3px);
+  transform: translateX(24px);
+  transition: 
+    opacity var(--duration-long) var(--ease-cinematic),
+    transform var(--duration-long) var(--ease-cinematic);
 }
 
 .reveal-right.visible {
   opacity: 1;
   transform: translateX(0);
-  filter: blur(0);
 }
 
-/* Scale reveal - subtle, premium */
+/* Scale reveal - very subtle, premium */
 .reveal-scale {
   opacity: 0;
-  transform: scale(0.96);
-  transition: all var(--duration-cinematic) var(--ease-cinematic);
-  filter: blur(2px);
+  transform: scale(0.98);
+  transition: 
+    opacity var(--duration-long) var(--ease-cinematic),
+    transform var(--duration-long) var(--ease-cinematic);
 }
 
 .reveal-scale.visible {
   opacity: 1;
   transform: scale(1);
-  filter: blur(0);
 }
 
-/* Staggered children animation - refined timing */
+/* ============================================
+   STAGGER CHILDREN - Choreographed Sequence
+   Like a storyboard, not simultaneous
+   ============================================ */
 .stagger-children > * {
   opacity: 0;
-  transform: translateY(20px);
-  filter: blur(2px);
-  transition: all var(--duration-cinematic) var(--ease-cinematic);
+  transform: translateY(16px);
+  transition: 
+    opacity var(--duration-base) var(--ease-cinematic),
+    transform var(--duration-base) var(--ease-cinematic);
 }
 
-.stagger-children.visible > *:nth-child(1) { transition-delay: 0s; opacity: 1; transform: translateY(0); filter: blur(0); }
-.stagger-children.visible > *:nth-child(2) { transition-delay: 80ms; opacity: 1; transform: translateY(0); filter: blur(0); }
-.stagger-children.visible > *:nth-child(3) { transition-delay: 160ms; opacity: 1; transform: translateY(0); filter: blur(0); }
-.stagger-children.visible > *:nth-child(4) { transition-delay: 240ms; opacity: 1; transform: translateY(0); filter: blur(0); }
-.stagger-children.visible > *:nth-child(5) { transition-delay: 320ms; opacity: 1; transform: translateY(0); filter: blur(0); }
-.stagger-children.visible > *:nth-child(6) { transition-delay: 400ms; opacity: 1; transform: translateY(0); filter: blur(0); }
+.stagger-children.visible > *:nth-child(1) { transition-delay: 0ms; opacity: 1; transform: translateY(0); }
+.stagger-children.visible > *:nth-child(2) { transition-delay: calc(var(--stagger-unit) * 1); opacity: 1; transform: translateY(0); }
+.stagger-children.visible > *:nth-child(3) { transition-delay: calc(var(--stagger-unit) * 2); opacity: 1; transform: translateY(0); }
+.stagger-children.visible > *:nth-child(4) { transition-delay: calc(var(--stagger-unit) * 3); opacity: 1; transform: translateY(0); }
+.stagger-children.visible > *:nth-child(5) { transition-delay: calc(var(--stagger-unit) * 4); opacity: 1; transform: translateY(0); }
+.stagger-children.visible > *:nth-child(6) { transition-delay: calc(var(--stagger-unit) * 5); opacity: 1; transform: translateY(0); }
+.stagger-children.visible > *:nth-child(7) { transition-delay: calc(var(--stagger-unit) * 6); opacity: 1; transform: translateY(0); }
+.stagger-children.visible > *:nth-child(8) { transition-delay: calc(var(--stagger-unit) * 7); opacity: 1; transform: translateY(0); }
 
 /* Gradient border animation */
 @keyframes borderGradient {
@@ -1586,7 +1689,7 @@ section[class*="border-t"]::before {
   height: 1px;
   background: hsl(var(--line-hair));
   transform: translateX(-50%);
-  transition: width 1.2s var(--ease-cinematic);
+  transition: width var(--duration-reveal) var(--ease-reveal);
 }
 
 section[class*="border-t"]:is(:hover, :focus-within, .section-visible)::before {
@@ -1602,18 +1705,14 @@ section {
 /* Premium container transitions */
 .container-standard,
 .container-narrow {
-  transition: opacity var(--duration-slow) var(--ease-controlled);
+  transition: opacity var(--duration-base) var(--ease-luxury);
 }
 
-/* Border cards with refined hover */
+/* Border cards with refined hover - motion only */
 .border.rounded-xl {
-  transition: 
-    transform var(--duration-slow) var(--ease-cinematic),
-    box-shadow var(--duration-slow) var(--ease-controlled),
-    border-color var(--duration-medium) var(--ease-controlled);
+  transition: transform var(--duration-base) var(--ease-luxury);
 }
 
 .border.rounded-xl:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.03);
 }
